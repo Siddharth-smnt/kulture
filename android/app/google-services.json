@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "334536738299",
+    "project_id": "kulture-7f415",
+    "storage_bucket": "kulture-7f415.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334536738299:android:63cb49577f44075837375e",
+        "android_client_info": {
+          "package_name": "com.mandarpurushottamsapplication.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxgWLQAwUH85ocYwdeWPCv7eodvISOFZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
