@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mandar_purushottam_s_application1/UserMode/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/UserMode/UserModel.dart';
 
 class AddRecipeScreen extends StatefulWidget {
@@ -7,12 +8,26 @@ class AddRecipeScreen extends StatefulWidget {
   _AddItemScreenState createState() => _AddItemScreenState();
 }
 
+class Entry {
+  String name;
+  int quantity;
+  Entry(this.name, this.quantity);
+  void setName(String name) {
+    this.name = name;
+  }
+
+  void setQuantity(int q) {
+    this.quantity = q;
+  }
+}
+
 class _AddItemScreenState extends State<AddRecipeScreen> {
   String? _recipeName;
   String? _recipeDescription;
-  Map<String, int>? _recipeItems;
+  List<Entry>? _recipeItems;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   List<Widget> inputRows = [];
+  Entry? temp;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +78,11 @@ class _AddItemScreenState extends State<AddRecipeScreen> {
                 });
               },
             ),
+            SizedBox(height: 16.0),
+            Text(
+              'Recipe Ingredients',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
             IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
@@ -75,15 +95,25 @@ class _AddItemScreenState extends State<AddRecipeScreen> {
                             decoration: InputDecoration(
                               hintText: 'Name',
                             ),
+                            onChanged: (value) {
+                              setState(() {
+                                temp?.setName(value);
+                              });
+                            },
                           ),
                         ),
                         SizedBox(width: 10),
                         Expanded(
                           child: TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Quantity',
-                            ),
-                          ),
+                              decoration: InputDecoration(
+                                hintText: 'Quantity',
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  temp?.setQuantity(value as int);
+                                });
+                                _recipeItems?.add(temp!);
+                              }),
                         ),
                       ],
                     ),
@@ -112,16 +142,16 @@ class _AddItemScreenState extends State<AddRecipeScreen> {
                     if (_recipeName != null &&
                         _recipeDescription != null &&
                         _recipeItems != null) {
-                      UserItem userModel = UserItem(
-                        category: _selectedCriteria!,
-                        itemName: _itemName!,
-                        quantity: _quantity!,
+                      RecipeItems recipeModel = RecipeItems(
+                        name: _recipeName!,
+                        description: _recipeDescription!,
+                        items: _recipeItems!,
                         userId: '1234',
                       );
                       await _firebaseFirestore
-                          .collection("UserItems")
+                          .collection("RecipeItems")
                           .doc()
-                          .set(userModel.toJson());
+                          .set(recipeModel.toJson());
                       Navigator.pop(context);
                     } else {
                       // Show an error message or handle validation
