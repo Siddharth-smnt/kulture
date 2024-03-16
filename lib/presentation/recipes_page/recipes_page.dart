@@ -1,4 +1,5 @@
 import 'package:mandar_purushottam_s_application1/add_stock.dart';
+import 'package:mandar_purushottam_s_application1/presentation/recipes_page/add_recipe.dart';
 import 'package:mandar_purushottam_s_application1/widgets/custom_floating_button.dart';
 
 import '../recipes_page/widgets/recipe_item_widget.dart';
@@ -145,7 +146,7 @@ class RecipesPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddItemScreen()),
+              MaterialPageRoute(builder: (context) => AddRecipeScreen()),
             );
           },
           iconPath: ImageConstant.imgPlus,
