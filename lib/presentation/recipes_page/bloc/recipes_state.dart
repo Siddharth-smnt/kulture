@@ -6,13 +6,11 @@ part of 'recipes_bloc.dart';
 class RecipesState extends Equatable {
   RecipesState({this.recipesModelObj});
 
-  RecipesModel? recipesModelObj;
+  RecipeListModel? recipesModelObj;
 
   @override
-  List<Object?> get props => [
-        recipesModelObj,
-      ];
-  RecipesState copyWith({RecipesModel? recipesModelObj}) {
+  List<Object?> get props => [recipesModelObj];
+  RecipesState copyWith({RecipeListModel? recipesModelObj}) {
     return RecipesState(
       recipesModelObj: recipesModelObj ?? this.recipesModelObj,
     );

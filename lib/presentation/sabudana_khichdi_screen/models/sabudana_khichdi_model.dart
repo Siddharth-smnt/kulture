@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:equatable/equatable.dart';
 import 'chipviewsabudan_item_model.dart';
 
@@ -23,7 +22,8 @@ class SabudanaKhichdiModel extends Equatable {
   }) {
     return SabudanaKhichdiModel(
       userId: userId ?? this.userId,
-      chipviewsabudanItemList: chipviewsabudanItemList ?? this.chipviewsabudanItemList,
+      chipviewsabudanItemList:
+          chipviewsabudanItemList ?? this.chipviewsabudanItemList,
     );
   }
 }

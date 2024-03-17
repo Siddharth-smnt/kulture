@@ -17,7 +17,7 @@ class RecipesPage extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider<RecipesBloc>(
         create: (context) =>
-            RecipesBloc(RecipesState(recipesModelObj: RecipesModel()))
+            RecipesBloc(RecipesState(recipesModelObj: RecipeListModel()))
               ..add(RecipesInitialEvent()),
         child: RecipesPage());
   }

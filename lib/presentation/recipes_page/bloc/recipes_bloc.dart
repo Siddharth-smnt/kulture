@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:mandar_purushottam_s_application1/presentation/recipes_page/models/recipes_model.dart';
 import '/core/app_export.dart';
 import '../models/recipe_item_model.dart';
-import 'package:mandar_purushottam_s_application1/presentation/recipes_page/models/recipes_model.dart';
 part 'recipes_event.dart';
 part 'recipes_state.dart';
 
@@ -21,7 +21,14 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
             ?.copyWith(recipeItemList: fillRecipeItemList())));
   }
 
+  // creates 4 default recipes
+  List<RecipeItemModel> defaultRecipes = [
+    RecipeItemModel(recipeName: "Poha"),
+    RecipeItemModel(recipeName: "Sabudana Khichdi"),
+    RecipeItemModel(recipeName: "Dal Khichdi"),
+    RecipeItemModel(recipeName: "Dal Tadka"),
+  ];
   List<RecipeItemModel> fillRecipeItemList() {
-    return List.generate(4, (index) => RecipeItemModel());
+    return List.generate(4, (index) => defaultRecipes[index]);
   }
 }
