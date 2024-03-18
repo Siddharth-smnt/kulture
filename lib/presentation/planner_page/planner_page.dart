@@ -6,12 +6,8 @@ import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_subtitl
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
 import 'package:mandar_purushottam_s_application1/widgets/custom_outlined_button.dart';
 
-// ignore_for_file: must_be_immutable
 class PlannerPage extends StatelessWidget {
-  const PlannerPage({Key? key})
-      : super(
-          key: key,
-        );
+  const PlannerPage({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
     return BlocProvider<PlannerBloc>(
@@ -38,275 +34,215 @@ class PlannerPage extends StatelessWidget {
               ),
               styleType: Style.bgFill,
             ),
-            body: SizedBox(
-              width: mediaQueryData.size.width,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.v),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 14.v,
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                          color: appTheme.orangeA700,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 24.h,
-                          top: 141.v,
-                          right: 24.h,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 25.h,
-                                vertical: 17.v,
-                              ),
-                              decoration:
-                                  AppDecoration.outlineOnPrimaryContainer1,
-                              child: Text(
-                                "lbl_date".tr,
-                                style: CustomTextStyles.titleSmallWhiteA700,
-                              ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 15.0,
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 30.h,
-                                vertical: 17.v,
-                              ),
-                              decoration:
-                                  AppDecoration.outlineOnPrimaryContainer1,
-                              child: Text(
-                                "lbl_event".tr,
-                                style: CustomTextStyles.titleSmallWhiteA700,
-                              ),
+                            decoration:
+                                AppDecoration.outlineOnPrimaryContainer1,
+                            child: Text(
+                              "lbl_date".tr,
+                              style: CustomTextStyles.titleSmallWhiteA700,
+                              textAlign: TextAlign.center,
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 30.h,
-                                vertical: 17.v,
-                              ),
-                              decoration: AppDecoration.fillOrange.copyWith(
-                                borderRadius:
-                                    BorderRadiusStyle.customBorderLR16,
-                              ),
-                              child: Text(
-                                "lbl_menu".tr,
-                                style: CustomTextStyles.titleSmallWhiteA700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14.h,
-                                vertical: 18.v,
-                              ),
-                              decoration:
-                                  AppDecoration.outlineOnPrimaryContainer2,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 3.v),
-                                  SizedBox(
-                                    width: 56.h,
-                                    child: Text(
-                                      "msg_sunday_august_27".tr,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: CustomTextStyles
-                                          .labelLargeFigtreeBluegray900
-                                          .copyWith(
-                                        height: 1.25,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14.h,
-                                vertical: 20.v,
-                              ),
-                              decoration:
-                                  AppDecoration.outlineOnPrimaryContainer3,
-                              child: SizedBox(
-                                width: 124.h,
-                                child: Text(
-                                  "msg_shravana_putrada".tr,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                  style: CustomTextStyles
-                                      .labelLargeFigtreeOnPrimary
-                                      .copyWith(
-                                    height: 1.25,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14.h,
-                                vertical: 20.v,
-                              ),
-                              decoration:
-                                  AppDecoration.outlineOnPrimaryContainer3,
-                              child: SizedBox(
-                                width: 69.h,
-                                child: Text(
-                                  "msg_batata_vada_chatni".tr,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                  style: CustomTextStyles
-                                      .labelLargeFigtreeOnPrimary
-                                      .copyWith(
-                                    height: 1.25,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14.h,
-                                vertical: 18.v,
-                              ),
-                              decoration:
-                                  AppDecoration.outlineOnPrimaryContainer2,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 3.v),
-                                  SizedBox(
-                                    width: 56.h,
-                                    child: Text(
-                                      "msg_tuesday_august".tr,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: CustomTextStyles
-                                          .labelLargeFigtreeBluegray900
-                                          .copyWith(
-                                        height: 1.25,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            CustomOutlinedButton(
-                              height: 72.v,
-                              width: 153.h,
-                              text: "lbl_onam_thiruvonam".tr,
-                              buttonTextStyle:
-                                  CustomTextStyles.labelLargeFigtreeOnPrimary,
-                            ),
-                            CustomOutlinedButton(
-                              height: 72.v,
-                              width: 106.h,
-                              text: "lbl_pav_bhaji".tr,
-                              buttonTextStyle:
-                                  CustomTextStyles.labelLargeFigtreeOnPrimary,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 8.h,
-                                vertical: 18.v,
-                              ),
-                              decoration:
-                                  AppDecoration.outlineOnPrimaryContainer2,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 3.v),
-                                  SizedBox(
-                                    width: 67.h,
-                                    child: Text(
-                                      "msg_wednesday_august".tr,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: CustomTextStyles
-                                          .labelLargeFigtreeBluegray900
-                                          .copyWith(
-                                        height: 1.25,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            CustomOutlinedButton(
-                              height: 72.v,
-                              width: 153.h,
-                              text: "lbl_raksha_bandhan".tr,
-                              buttonTextStyle:
-                                  CustomTextStyles.labelLargeFigtreeOnPrimary,
-                            ),
-                            CustomOutlinedButton(
-                              height: 72.v,
-                              width: 106.h,
-                              text: "lbl_idli_sambar".tr,
-                              buttonTextStyle:
-                                  CustomTextStyles.labelLargeFigtreeOnPrimary,
-                            ),
-                          ],
-                        ),
-                      ),
-                      CustomImageView(
-                        svgPath: ImageConstant.imgRow4,
-                        height: 72.v,
-                        width: 345.h,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 24.h),
-                          child: Text(
-                            "lbl_planner2".tr,
-                            style: theme.textTheme.headlineSmall,
                           ),
                         ),
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 15.0,
+                            ),
+                            decoration:
+                                AppDecoration.outlineOnPrimaryContainer1,
+                            child: Text(
+                              "lbl_event".tr,
+                              style: CustomTextStyles.titleSmallWhiteA700,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 15.0,
+                            ),
+                            decoration: AppDecoration.fillOrange.copyWith(
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Text(
+                              "lbl_menu".tr,
+                              style: CustomTextStyles.titleSmallWhiteA700,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 15.0,
+                            ),
+                            decoration:
+                                AppDecoration.outlineOnPrimaryContainer2,
+                            child: Text(
+                              "msg_sunday_august_27".tr,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: CustomTextStyles
+                                  .labelLargeFigtreeBluegray900
+                                  .copyWith(height: 1.25),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: CustomOutlinedButton(
+                            height: 72.0,
+                            text: "msg_shravana_putrada".tr,
+                            buttonTextStyle:
+                                CustomTextStyles.labelLargeFigtreeOnPrimary,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: CustomOutlinedButton(
+                            height: 72.0,
+                            text: "msg_batata_vada_chatni".tr,
+                            buttonTextStyle:
+                                CustomTextStyles.labelLargeFigtreeOnPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 15.0,
+                            ),
+                            decoration:
+                                AppDecoration.outlineOnPrimaryContainer2,
+                            child: Text(
+                              "msg_tuesday_august".tr,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: CustomTextStyles
+                                  .labelLargeFigtreeBluegray900
+                                  .copyWith(height: 1.25),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: CustomOutlinedButton(
+                            height: 72.0,
+                            text: "lbl_onam_thiruvonam".tr,
+                            buttonTextStyle:
+                                CustomTextStyles.labelLargeFigtreeOnPrimary,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: CustomOutlinedButton(
+                            height: 72.0,
+                            text: "lbl_pav_bhaji".tr,
+                            buttonTextStyle:
+                                CustomTextStyles.labelLargeFigtreeOnPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 15.0,
+                            ),
+                            decoration:
+                                AppDecoration.outlineOnPrimaryContainer2,
+                            child: Text(
+                              "msg_wednesday_august".tr,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: CustomTextStyles
+                                  .labelLargeFigtreeBluegray900
+                                  .copyWith(height: 1.25),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: CustomOutlinedButton(
+                            height: 72.0,
+                            text: "lbl_raksha_bandhan".tr,
+                            buttonTextStyle:
+                                CustomTextStyles.labelLargeFigtreeOnPrimary,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: CustomOutlinedButton(
+                            height: 72.0,
+                            text: "lbl_idli_sambar".tr,
+                            buttonTextStyle:
+                                CustomTextStyles.labelLargeFigtreeOnPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.0),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "lbl_planner2".tr,
+                        style: theme.textTheme.headlineSmall,
                       ),
-                      SizedBox(height: 134.v),
-                      CustomOutlinedButton(
-                        height: 46.v,
-                        width: 211.h,
-                        text: "lbl_save".tr,
-                        buttonStyle: CustomButtonStyles.outlinePrimaryTL8,
-                        buttonTextStyle: CustomTextStyles.bodyMediumLato,
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 20.0),
+                    CustomOutlinedButton(
+                      height: 46.0,
+                      text: "lbl_save".tr,
+                      buttonStyle: CustomButtonStyles.outlinePrimaryTL8,
+                      buttonTextStyle: CustomTextStyles.bodyMediumLato,
+                    ),
+                  ],
                 ),
               ),
             ),

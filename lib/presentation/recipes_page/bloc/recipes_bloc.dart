@@ -12,7 +12,7 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
     on<RecipesInitialEvent>(_onInitialize);
   }
 
-  _onInitialize(
+  void _onInitialize(
     RecipesInitialEvent event,
     Emitter<RecipesState> emit,
   ) async {
@@ -21,13 +21,42 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
             ?.copyWith(recipeItemList: fillRecipeItemList())));
   }
 
-  // creates 4 default recipes
+// creates 4 default recipes
   List<RecipeItemModel> defaultRecipes = [
-    RecipeItemModel(recipeName: "Poha"),
-    RecipeItemModel(recipeName: "Sabudana Khichdi"),
-    RecipeItemModel(recipeName: "Dal Khichdi"),
-    RecipeItemModel(recipeName: "Dal Tadka"),
+    RecipeItemModel(
+      recipeName: "Poha",
+      description: "Poha recipe description",
+      ingredients: [
+        IngredientsListModel(ingredientName: "Poha", quantity: "1 cup"),
+        IngredientsListModel(ingredientName: "Water", quantity: "2 cup")
+      ],
+    ),
+    RecipeItemModel(
+      recipeName: "Sabudana Khichdi",
+      description: "Sabudana Khichdi recipe description",
+      ingredients: [
+        IngredientsListModel(ingredientName: "Sabudana", quantity: "1 cup"),
+        IngredientsListModel(ingredientName: "Water", quantity: "2 cup")
+      ],
+    ),
+    RecipeItemModel(
+      recipeName: "Dal Khichdi",
+      description: "Dal Khichdi recipe description",
+      ingredients: [
+        IngredientsListModel(ingredientName: "Dal", quantity: "1 cup"),
+        IngredientsListModel(ingredientName: "Rice", quantity: "2 cup")
+      ],
+    ),
+    RecipeItemModel(
+      recipeName: "Dal Tadka",
+      description: "Dal Tadka recipe description",
+      ingredients: [
+        IngredientsListModel(ingredientName: "Dal", quantity: "1 cup"),
+        IngredientsListModel(ingredientName: "Water", quantity: "2 cup")
+      ],
+    ),
   ];
+
   List<RecipeItemModel> fillRecipeItemList() {
     return List.generate(4, (index) => defaultRecipes[index]);
   }

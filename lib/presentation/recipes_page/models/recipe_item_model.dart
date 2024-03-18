@@ -1,4 +1,3 @@
-/// This class is used in the [recipe_item_widget] screen.
 class RecipeItemModel {
   RecipeItemModel({
     this.id,
@@ -8,15 +7,20 @@ class RecipeItemModel {
     this.imageAddress,
   });
 
-  int? id;
-  String recipeName;
-  String? description;
-  List<IngredientsListModel>? ingredients;
-  String? imageAddress;
+  int? id; // Optional ID
+  String recipeName; // Name of the recipe
+  String? description; // Description of the recipe (optional)
+  List<IngredientsListModel>?
+      ingredients; // List of ingredients for the recipe (optional)
+  String? imageAddress; // Optional image address
 }
 
 class IngredientsListModel {
-  IngredientsListModel({required this.ingredientName, this.quantity});
-  String ingredientName;
-  String? quantity;
+  IngredientsListModel({
+    required this.ingredientName,
+    this.quantity,
+  });
+
+  String ingredientName; // Name of the ingredient
+  String? quantity; // Quantity of the ingredient (optional)
 }

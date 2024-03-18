@@ -94,14 +94,14 @@ class RecipeScreen extends StatelessWidget {
                         SizedBox(
                           width: 342.h,
                           child: Text(
-                            "msg_sabudana_khichdi2".tr,
+                            recipe.description ?? "No description",
                             maxLines: 5,
                             overflow: TextOverflow.ellipsis,
                             style: CustomTextStyles.bodyMediumFigtreePrimary
                                 .copyWith(height: 1.50),
                           ),
                         ),
-                        SizedBox(height: 39.v),
+                        SizedBox(height: 18.v),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -110,12 +110,30 @@ class RecipeScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 18.v),
-                        CustomOutlinedButton(
-                          height: 32.v,
-                          width: 101.h,
-                          text: "lbl_add_item".tr,
-                          isDisabled: true,
-                        ),
+                        // Display Ingredients and Quantities
+                        if (recipe.ingredients != null)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: recipe.ingredients!
+                                .map((ingredient) => Padding(
+                                      padding: EdgeInsets.only(bottom: 8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            ingredient.ingredientName,
+                                            style: TextStyle(fontSize: 16.0),
+                                          ),
+                                          Text(
+                                            ingredient.quantity ?? "",
+                                            style: TextStyle(fontSize: 16.0),
+                                          ),
+                                        ],
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
                       ],
                     ),
                   ),

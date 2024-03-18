@@ -1,12 +1,10 @@
-import 'package:mandar_purushottam_s_application1/add_stock.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/add_recipe.dart';
 import 'package:mandar_purushottam_s_application1/widgets/custom_floating_button.dart';
-
-import '../recipes_page/widgets/recipe_item_widget.dart';
 import 'bloc/recipes_bloc.dart';
-import 'models/recipe_item_model.dart';
 import 'models/recipes_model.dart';
-import 'package:flutter/material.dart';
+import 'widgets/recipe_item_widget.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_subtitle.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
@@ -16,98 +14,110 @@ class RecipesPage extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<RecipesBloc>(
-        create: (context) =>
-            RecipesBloc(RecipesState(recipesModelObj: RecipeListModel()))
-              ..add(RecipesInitialEvent()),
-        child: RecipesPage());
+      create: (context) =>
+          RecipesBloc(RecipesState(recipesModelObj: RecipeListModel()))
+            ..add(RecipesInitialEvent()),
+      child: RecipesPage(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
+    final mediaQueryData = MediaQuery.of(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(
-            centerTitle: true,
-            title: AppbarSubtitle(text: "lbl_recipes2".tr),
-            styleType: Style.bgFill),
+          centerTitle: true,
+          title: AppbarSubtitle(text: "lbl_recipes2".tr),
+          styleType: Style.bgFill,
+        ),
         body: SizedBox(
           width: double.maxFinite,
           child: Column(
             children: [
               Container(
-                  height: 14.v,
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(color: appTheme.orangeA700)),
+                height: 14.v,
+                width: double.maxFinite,
+                decoration: BoxDecoration(color: appTheme.orangeA700),
+              ),
               Padding(
-                  padding: EdgeInsets.only(left: 24.h, top: 35.v, right: 24.h),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              onTapRecipe1(context);
-                            },
-                            child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 12.h, vertical: 16.v),
-                                decoration: AppDecoration.outlinePrimary
-                                    .copyWith(
-                                        borderRadius:
-                                            BorderRadiusStyle.roundedBorder20),
-                                child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(
-                                          height: 87.v,
-                                          width: 140.h,
-                                          child: Stack(
-                                              alignment: Alignment.bottomCenter,
-                                              children: [
-                                                CustomImageView(
-                                                    imagePath: ImageConstant
-                                                        .imgImage12,
-                                                    height: 87.v,
-                                                    width: 140.h,
-                                                    alignment:
-                                                        Alignment.center),
-                                                CustomImageView(
-                                                    imagePath: ImageConstant
-                                                        .imgImage12,
-                                                    height: 6.v,
-                                                    width: 10.h,
-                                                    alignment:
-                                                        Alignment.bottomCenter,
-                                                    margin: EdgeInsets.only(
-                                                        bottom: 36.v))
-                                              ])),
-                                      SizedBox(height: 23.v),
-                                      Text("msg_sabudana_khichdi".tr,
-                                          style: CustomTextStyles
-                                              .titleMediumPrimary),
-                                      SizedBox(height: 10.v)
-                                    ]))),
-                        Container(
-                            margin: EdgeInsets.only(left: 15.h),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 12.h, vertical: 16.v),
-                            decoration: AppDecoration.outlinePrimary.copyWith(
-                                borderRadius:
-                                    BorderRadiusStyle.roundedBorder20),
-                            child: Column(
-                                mainAxisSize: MainAxisSize.min,
+                padding: EdgeInsets.only(left: 24.h, top: 35.v, right: 24.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        onTapRecipe1(context);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 12.h, vertical: 16.v),
+                        decoration: AppDecoration.outlinePrimary.copyWith(
+                          borderRadius: BorderRadiusStyle.roundedBorder20,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              height: 87.v,
+                              width: 140.h,
+                              child: Stack(
+                                alignment: Alignment.bottomCenter,
                                 children: [
                                   CustomImageView(
-                                      imagePath: ImageConstant.imgImage13,
-                                      height: 87.v,
-                                      width: 140.h),
-                                  SizedBox(height: 23.v),
-                                  Text("lbl_puri_chole".tr,
-                                      style:
-                                          CustomTextStyles.titleMediumPrimary),
-                                  SizedBox(height: 10.v)
-                                ]))
-                      ])),
+                                    imagePath: ImageConstant.imgImage12,
+                                    height: 87.v,
+                                    width: 140.h,
+                                    alignment: Alignment.center,
+                                  ),
+                                  CustomImageView(
+                                    imagePath: ImageConstant.imgImage12,
+                                    height: 6.v,
+                                    width: 10.h,
+                                    alignment: Alignment.bottomCenter,
+                                    margin: EdgeInsets.only(bottom: 36.v),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 23.v),
+                            Text(
+                              "msg_sabudana_khichdi".tr,
+                              style: CustomTextStyles.titleMediumPrimary,
+                            ),
+                            SizedBox(height: 10.v),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 15.h),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 12.h, vertical: 16.v),
+                      decoration: AppDecoration.outlinePrimary.copyWith(
+                        borderRadius: BorderRadiusStyle.roundedBorder20,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgImage13,
+                            height: 87.v,
+                            width: 140.h,
+                          ),
+                          SizedBox(height: 23.v),
+                          Text(
+                            "lbl_puri_chole".tr,
+                            style: CustomTextStyles.titleMediumPrimary,
+                          ),
+                          SizedBox(height: 10.v),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(left: 24.h, top: 32.v, right: 24.h),
@@ -160,7 +170,7 @@ class RecipesPage extends StatelessWidget {
   /// The [BuildContext] parameter is used to build the navigation stack.
   /// When the action is triggered, this function uses the [NavigatorService]
   /// to push the named route for the sabudanaKhichdiScreen.
-  onTapRecipe1(BuildContext context) {
+  static onTapRecipe1(BuildContext context) {
     NavigatorService.pushNamed(
       AppRoutes.sabudanaKhichdiScreen,
     );
