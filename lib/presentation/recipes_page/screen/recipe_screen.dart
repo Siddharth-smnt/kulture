@@ -110,30 +110,25 @@ class RecipeScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 18.v),
-                        // Display Ingredients and Quantities
-                        if (recipe.ingredients != null)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: recipe.ingredients!
-                                .map((ingredient) => Padding(
-                                      padding: EdgeInsets.only(bottom: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            ingredient.ingredientName,
-                                            style: TextStyle(fontSize: 16.0),
-                                          ),
-                                          Text(
-                                            ingredient.quantity ?? "",
-                                            style: TextStyle(fontSize: 16.0),
-                                          ),
-                                        ],
-                                      ),
-                                    ))
-                                .toList(),
-                          ),
+                        // ListView for Ingredients and Quantities
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount:
+                              recipe.ingredients?.length ?? 0, // Check for null
+                          itemBuilder: (context, index) {
+                            final ingredient = recipe.ingredients![index];
+                            return ListTile(
+                              title: Text(
+                                ingredient.ingredientName,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              subtitle: Text(
+                                ingredient.quantity ?? 'Quantity not specified',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),

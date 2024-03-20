@@ -44,7 +44,7 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
       description: "Dal Khichdi recipe description",
       ingredients: [
         IngredientsListModel(ingredientName: "Dal", quantity: "1 cup"),
-        IngredientsListModel(ingredientName: "Rice", quantity: "2 cup")
+        IngredientsListModel(ingredientName: "Rice", quantity: "4 cup")
       ],
     ),
     RecipeItemModel(
