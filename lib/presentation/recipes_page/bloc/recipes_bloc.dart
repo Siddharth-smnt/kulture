@@ -28,7 +28,11 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
       description: "Poha recipe description",
       ingredients: [
         IngredientsListModel(ingredientName: "Poha", quantity: "1 cup"),
-        IngredientsListModel(ingredientName: "Water", quantity: "2 cup")
+        IngredientsListModel(ingredientName: "Water", quantity: "2 cup"),
+        IngredientsListModel(ingredientName: "Kanda", quantity: "2 cup"),
+        IngredientsListModel(ingredientName: "Batata", quantity: "2 cup"),
+        IngredientsListModel(ingredientName: "oil", quantity: "1 teaspoon"),
+        IngredientsListModel(ingredientName: "Mirchi", quantity: "2 cup"),
       ],
     ),
     RecipeItemModel(

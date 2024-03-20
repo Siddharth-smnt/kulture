@@ -3,7 +3,6 @@ import '../models/recipe_item_model.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image_2.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
-import 'package:mandar_purushottam_s_application1/widgets/custom_outlined_button.dart';
 
 class RecipeScreen extends StatelessWidget {
   RecipeScreen(this.recipe, {Key? key}) : super(key: key);
@@ -110,24 +109,32 @@ class RecipeScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 18.v),
-                        // ListView for Ingredients and Quantities
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount:
-                              recipe.ingredients?.length ?? 0, // Check for null
-                          itemBuilder: (context, index) {
-                            final ingredient = recipe.ingredients![index];
-                            return ListTile(
-                              title: Text(
-                                ingredient.ingredientName,
-                                style: TextStyle(fontSize: 16),
+                        // Make the list of ingredients scrollable
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: recipe.ingredients?.length ??
+                                    0, // Check for null
+                                itemBuilder: (context, index) {
+                                  final ingredient = recipe.ingredients![index];
+                                  return ListTile(
+                                    title: Text(
+                                      ingredient.ingredientName,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    subtitle: Text(
+                                      ingredient.quantity ??
+                                          'Quantity not specified',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  );
+                                },
                               ),
-                              subtitle: Text(
-                                ingredient.quantity ?? 'Quantity not specified',
-                                style: TextStyle(fontSize: 14),
-                              ),
-                            );
-                          },
+                            ],
+                          ),
                         ),
                       ],
                     ),
