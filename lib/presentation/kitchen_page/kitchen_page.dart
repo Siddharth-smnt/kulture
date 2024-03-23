@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
 import 'package:mandar_purushottam_s_application1/add_stock.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
-import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/widgets/condiment_item_widget.dart';
-import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/widgets/vegetableprofil_item_widget.dart';
+import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/bloc/kitchen_bloc.dart';
+import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/models/kitchen_model.dart';
+import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/widgets/Inventory_Item_Widget.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image_1.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
 import 'package:mandar_purushottam_s_application1/widgets/custom_floating_button.dart';
-
-import 'bloc/kitchen_bloc.dart';
-import 'models/condiment_item_model.dart';
-import 'models/kitchen_model.dart';
-import 'models/vegetableprofil_item_model.dart';
 
 class KitchenPage extends StatelessWidget {
   const KitchenPage({Key? key}) : super(key: key);
@@ -63,7 +60,7 @@ class KitchenPage extends StatelessWidget {
                 SizedBox(height: 22.v),
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection('UserItems')
+                      .collection('Inventory')
                       .where('category', isEqualTo: 'Condiments')
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -71,31 +68,36 @@ class KitchenPage extends StatelessWidget {
                       return CircularProgressIndicator();
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
-                      return Center(child: Text('Nothing is available',style: TextStyle(color: Colors.black),));
+                    } else if (snapshot.hasData &&
+                        snapshot.data!.docs.isEmpty) {
+                      return Center(
+                          child: Text(
+                        'Nothing is available',
+                        style: TextStyle(color: Colors.black),
+                      ));
                     } else {
-                      List<CondimentItemModel> condimentItemList =
-                      snapshot.data!.docs.map((document) {
+                      List<InventoryModel> condimentsList =
+                          snapshot.data!.docs.map((document) {
                         Map<String, dynamic> data =
-                        document.data() as Map<String, dynamic>;
-                        return CondimentItemModel.fromJson(data);
+                            document.data() as Map<String, dynamic>;
+                        return InventoryModel.fromJson(data);
                       }).toList();
 
                       return GridView.builder(
                         shrinkWrap: true,
-                        gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisExtent: 153.v,
                           crossAxisCount: 2,
                           mainAxisSpacing: 32.h,
                           crossAxisSpacing: 32.h,
                         ),
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: condimentItemList.length,
+                        itemCount: condimentsList.length,
                         itemBuilder: (context, index) {
-                          var docId = snapshot.data!.docs[index].id; // Retrieve document ID
-                          return CondimentItemWidget(
-                            condimentItemList[index],
+                          var docId = snapshot
+                              .data!.docs[index].id; // Retrieve document ID
+                          return InventoryItemWidget(
+                            condimentsList[index],
                             docId: docId,
                           );
                         },
@@ -111,7 +113,7 @@ class KitchenPage extends StatelessWidget {
                 SizedBox(height: 22.v),
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection('UserItems')
+                      .collection('Inventory')
                       .where('category', isEqualTo: 'Vegetables')
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -121,31 +123,34 @@ class KitchenPage extends StatelessWidget {
                       return Text('Error: ${snapshot.error}');
                     } else if (snapshot.hasData &&
                         snapshot.data!.docs.isEmpty) {
-                      return Center(child: Text('Nothing is available',style: TextStyle(color: Colors.black),));
-
+                      return Center(
+                          child: Text(
+                        'Nothing is available',
+                        style: TextStyle(color: Colors.black),
+                      ));
                     } else {
-                      List<VegetableprofilItemModel> vegetableprofilItemList =
-                      snapshot.data!.docs.map((document) {
+                      List<InventoryModel> vegetableList =
+                          snapshot.data!.docs.map((document) {
                         Map<String, dynamic> data =
-                        document.data() as Map<String, dynamic>;
-                        return VegetableprofilItemModel.fromJson(data);
+                            document.data() as Map<String, dynamic>;
+                        return InventoryModel.fromJson(data);
                       }).toList();
 
                       return GridView.builder(
                         shrinkWrap: true,
-                        gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisExtent: 153.v,
                           crossAxisCount: 2,
                           mainAxisSpacing: 32.h,
                           crossAxisSpacing: 32.h,
                         ),
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: vegetableprofilItemList.length,
+                        itemCount: vegetableList.length,
                         itemBuilder: (context, index) {
-                          var docId = snapshot.data!.docs[index].id; // Retrieve document ID
-                          return VegetableprofilItemWidget(
-                            vegetableprofilItemList[index],
+                          var docId = snapshot
+                              .data!.docs[index].id; // Retrieve document ID
+                          return InventoryItemWidget(
+                            vegetableList[index],
                             docId: docId,
                           );
                         },

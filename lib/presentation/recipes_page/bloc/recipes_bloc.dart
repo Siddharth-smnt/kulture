@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/models/recipes_model.dart';
@@ -25,43 +26,61 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
   List<RecipeItemModel> defaultRecipes = [
     RecipeItemModel(
       recipeName: "Poha",
-      description: "Poha recipe description",
+      recipeDescription: "Poha recipe description",
       ingredients: [
-        IngredientsListModel(ingredientName: "Poha", quantity: "1 cup"),
-        IngredientsListModel(ingredientName: "Water", quantity: "2 cup"),
-        IngredientsListModel(ingredientName: "Kanda", quantity: "2 cup"),
-        IngredientsListModel(ingredientName: "Batata", quantity: "2 cup"),
-        IngredientsListModel(ingredientName: "oil", quantity: "1 teaspoon"),
-        IngredientsListModel(ingredientName: "Mirchi", quantity: "2 cup"),
+        IngredientsListModel(name: "Poha", quantity: "1", unit: "kg"),
+        IngredientsListModel(name: "Water", quantity: "2", unit: "kg"),
+        IngredientsListModel(name: "Kanda", quantity: "2", unit: "kg"),
+        IngredientsListModel(name: "Batata", quantity: "2", unit: "kg"),
+        IngredientsListModel(name: "oil", quantity: "1", unit: "kg"),
+        IngredientsListModel(name: "Mirchi", quantity: "2", unit: "kg"),
       ],
     ),
     RecipeItemModel(
       recipeName: "Sabudana Khichdi",
-      description: "Sabudana Khichdi recipe description",
+      recipeDescription: "Sabudana Khichdi recipe description",
       ingredients: [
-        IngredientsListModel(ingredientName: "Sabudana", quantity: "1 cup"),
-        IngredientsListModel(ingredientName: "Water", quantity: "2 cup")
+        IngredientsListModel(name: "Sabudana", quantity: "1", unit: "kg"),
+        IngredientsListModel(name: "Water", quantity: "2", unit: "kg")
       ],
     ),
     RecipeItemModel(
       recipeName: "Dal Khichdi",
-      description: "Dal Khichdi recipe description",
+      recipeDescription: "Dal Khichdi recipe description",
       ingredients: [
-        IngredientsListModel(ingredientName: "Dal", quantity: "1 cup"),
-        IngredientsListModel(ingredientName: "Rice", quantity: "4 cup")
+        IngredientsListModel(name: "Dal", quantity: "1", unit: "kg"),
+        IngredientsListModel(name: "Rice", quantity: "4", unit: "kg")
       ],
     ),
     RecipeItemModel(
       recipeName: "Dal Tadka",
-      description: "Dal Tadka recipe description",
+      recipeDescription: "Dal Tadka recipe description",
       ingredients: [
-        IngredientsListModel(ingredientName: "Dal", quantity: "1 cup"),
-        IngredientsListModel(ingredientName: "Water", quantity: "2 cup")
+        IngredientsListModel(name: "Dal", quantity: "1", unit: "kg"),
+        IngredientsListModel(name: "Water", quantity: "2", unit: "kg")
       ],
     ),
   ];
 
   List<RecipeItemModel> fillRecipeItemList() {
-    return List.generate(4, (index) => defaultRecipes[index]);
+    List<RecipeItemModel> firebaseRecipes = [];
+
+    // Fetch recipes from Firestore
+    FirebaseFirestore.instance
+        .collection('recipes')
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        // Assuming your RecipeItemModel class has a constructor that takes a Map
+        RecipeItemModel recipe = RecipeItemModel.fromJson(data);
+        firebaseRecipes.add(recipe);
+      });
+    }).catchError((error) {
+      // Handle errors here
+      print("Error fetching recipes: $error");
+    });
+
+    return defaultRecipes + firebaseRecipes;
   }
 }

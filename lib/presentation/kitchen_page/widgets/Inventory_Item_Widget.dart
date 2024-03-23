@@ -37,7 +37,7 @@ class InventoryItemWidget extends StatelessWidget {
             ),
             SizedBox(height: 16.v),
             Text(
-              inventoryItemModelObj.itemName!,
+              inventoryItemModelObj.itemName,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.titleMedium,
             ),

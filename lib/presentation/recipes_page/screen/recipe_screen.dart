@@ -93,7 +93,7 @@ class RecipeScreen extends StatelessWidget {
                         SizedBox(
                           width: 342.h,
                           child: Text(
-                            recipe.description ?? "No description",
+                            recipe.recipeDescription ?? "No description",
                             maxLines: 5,
                             overflow: TextOverflow.ellipsis,
                             style: CustomTextStyles.bodyMediumFigtreePrimary
@@ -122,7 +122,7 @@ class RecipeScreen extends StatelessWidget {
                                   final ingredient = recipe.ingredients![index];
                                   return ListTile(
                                     title: Text(
-                                      ingredient.ingredientName,
+                                      ingredient.name,
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     subtitle: Text(

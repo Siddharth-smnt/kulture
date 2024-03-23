@@ -1,14 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../sabudana_khichdi_screen/widgets/chipviewsabudan_item_widget.dart';
 import 'bloc/sabudana_khichdi_bloc.dart';
-import 'models/chipviewsabudan_item_model.dart';
 import 'models/sabudana_khichdi_model.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
-import 'package:mandar_purushottam_s_application1/presentation/estimate_page/estimate_page.dart';
-import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/kitchen_page.dart';
-import 'package:mandar_purushottam_s_application1/presentation/planner_page/planner_page.dart';
-import 'package:mandar_purushottam_s_application1/presentation/recipes_page/recipes_page.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image_2.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
 import 'package:mandar_purushottam_s_application1/widgets/custom_bottom_bar.dart';
@@ -23,7 +17,8 @@ class SabudanaKhichdiScreen extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider<SabudanaKhichdiBloc>(
       create: (context) => SabudanaKhichdiBloc(
-        SabudanaKhichdiState(sabudanaKhichdiModelObj: SabudanaKhichdiModel(userId: '1234')),
+        SabudanaKhichdiState(
+            sabudanaKhichdiModelObj: SabudanaKhichdiModel(userId: '1234')),
       )..add(SabudanaKhichdiInitialEvent()),
       child: SabudanaKhichdiScreen(),
     );
@@ -34,11 +29,11 @@ class SabudanaKhichdiScreen extends StatelessWidget {
     try {
       // Get a reference to the user items collection in Firestore
       CollectionReference userItemsRef =
-      FirebaseFirestore.instance.collection('UserItems');
+          FirebaseFirestore.instance.collection('UserItems');
 
       // Query the user items collection for items with the specified userId
       QuerySnapshot querySnapshot =
-      await userItemsRef.where('userId', isEqualTo: userId).get();
+          await userItemsRef.where('userId', isEqualTo: userId).get();
 
       // Extract item names from the query snapshot
       List<String> itemNames = [];
@@ -130,7 +125,8 @@ class SabudanaKhichdiScreen extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 24.h, right: 26.h, bottom: 5.v),
+                    padding:
+                        EdgeInsets.only(left: 24.h, right: 26.h, bottom: 5.v),
                     child: Column(
                       children: [
                         Text(
@@ -144,7 +140,8 @@ class SabudanaKhichdiScreen extends StatelessWidget {
                             "msg_sabudana_khichdi2".tr,
                             maxLines: 5,
                             overflow: TextOverflow.ellipsis,
-                            style: CustomTextStyles.bodyMediumFigtreePrimary.copyWith(height: 1.50),
+                            style: CustomTextStyles.bodyMediumFigtreePrimary
+                                .copyWith(height: 1.50),
                           ),
                         ),
                         SizedBox(height: 39.v),
@@ -155,9 +152,9 @@ class SabudanaKhichdiScreen extends StatelessWidget {
                             style: CustomTextStyles.titleMediumOrange900,
                           ),
                         ),
-  
                         SizedBox(height: 15.v),
-                        BlocSelector<SabudanaKhichdiBloc, SabudanaKhichdiState, SabudanaKhichdiModel?>(
+                        BlocSelector<SabudanaKhichdiBloc, SabudanaKhichdiState,
+                            SabudanaKhichdiModel?>(
                           selector: (state) => state.sabudanaKhichdiModelObj,
                           builder: (context, sabudanaKhichdiModelObj) {
                             if (sabudanaKhichdiModelObj == null ||
@@ -166,27 +163,41 @@ class SabudanaKhichdiScreen extends StatelessWidget {
                               return Text("User ID is null");
                             } else {
                               return FutureBuilder<List<String>>(
-                                future: fetchItemNames(sabudanaKhichdiModelObj.userId!),
+                                future: fetchItemNames(
+                                    sabudanaKhichdiModelObj.userId!),
                                 builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
                                     return CircularProgressIndicator(); // Placeholder while waiting for data
                                   } else if (snapshot.hasError) {
-                                    return Text('Error: ${snapshot.error}'); // Display error if any
+                                    return Text(
+                                        'Error: ${snapshot.error}'); // Display error if any
                                   } else {
-                                    List<String> itemNames = snapshot.data ?? [];
+                                    List<String> itemNames =
+                                        snapshot.data ?? [];
                                     return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           "Available Item Names:",
-                                          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.orange),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.orange),
                                         ),
-                                        SizedBox(height: 10), // Add some space between the text and the list
+                                        SizedBox(
+                                            height:
+                                                10), // Add some space between the text and the list
                                         ListView.builder(
                                           shrinkWrap: true,
                                           itemCount: itemNames.length,
                                           itemBuilder: (context, index) {
-                                            return Text(itemNames[index], style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),);
+                                            return Text(
+                                              itemNames[index],
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black),
+                                            );
                                           },
                                         ),
                                       ],
@@ -214,7 +225,8 @@ class SabudanaKhichdiScreen extends StatelessWidget {
         ),
         bottomNavigationBar: CustomBottomBar(
           onChanged: (BottomBarEnum type) {
-            Navigator.pushNamed(navigatorKey.currentContext!, getCurrentRoute(type));
+            Navigator.pushNamed(
+                navigatorKey.currentContext!, getCurrentRoute(type));
           },
         ),
       ),
@@ -228,6 +240,7 @@ class SabudanaKhichdiScreen extends StatelessWidget {
     NavigatorService.goBack();
   }
 }
+
 String getCurrentRoute(BottomBarEnum type) {
   switch (type) {
     case BottomBarEnum.Kitchen:
@@ -249,4 +262,3 @@ String getCurrentRoute(BottomBarEnum type) {
 onTapArrowleftone(BuildContext context) {
   NavigatorService.goBack();
 }
-

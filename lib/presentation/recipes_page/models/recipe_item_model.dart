@@ -3,20 +3,47 @@ class RecipeItemModel {
   RecipeItemModel({
     this.id,
     required this.recipeName,
-    this.description,
+    this.recipeDescription,
     this.ingredients,
-    this.imageAddress,
+    this.imageUrl,
   });
 
   int? id;
   String recipeName;
-  String? description;
+  String? recipeDescription;
   List<IngredientsListModel>? ingredients;
-  String? imageAddress;
+  String? imageUrl;
+
+  // Method to convert JSON object to RecipeItemModel object
+  factory RecipeItemModel.fromJson(Map<String, dynamic> json) {
+    List<IngredientsListModel> ingredients = [];
+    if (json['ingredients'] != null) {
+      json['ingredients'].forEach((ingredient) {
+        ingredients.add(IngredientsListModel.fromJson(ingredient));
+      });
+    }
+    return RecipeItemModel(
+      id: json['id'],
+      recipeName: json['recipeName'],
+      recipeDescription: json['recipeDescription'],
+      imageUrl: json['imageUrl'],
+      ingredients: ingredients,
+    );
+  }
 }
 
 class IngredientsListModel {
-  IngredientsListModel({required this.ingredientName, this.quantity});
-  String ingredientName;
-  String? quantity;
+  IngredientsListModel(
+      {required this.name, required this.quantity, required this.unit});
+  String name;
+  String quantity;
+  String unit;
+  // Method to convert JSON object to IngredientsListModel object
+  factory IngredientsListModel.fromJson(Map<String, dynamic> json) {
+    return IngredientsListModel(
+      name: json['name'],
+      quantity: json['quantity'],
+      unit: json['unit'],
+    );
+  }
 }
