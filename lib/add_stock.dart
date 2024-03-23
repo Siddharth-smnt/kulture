@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:mandar_purushottam_s_application1/UserMode/UserModel.dart';
+import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
 
 class AddItemScreen extends StatefulWidget {
   @override
@@ -56,7 +56,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 });
               },
               hint: Text('Select Criteria'),
-              dropdownColor: Colors.white, // Setting dropdown menu color to white
+              dropdownColor:
+                  Colors.white, // Setting dropdown menu color to white
             ),
             SizedBox(height: 16.0),
             Text(
@@ -113,7 +114,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       });
                     },
                     hint: Text('Select Unit'),
-                    dropdownColor: Colors.white, // Setting dropdown menu color to white
+                    dropdownColor:
+                        Colors.white, // Setting dropdown menu color to white
                   ),
                 ),
               ],
@@ -140,19 +142,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         _itemName != null &&
                         _quantity != null &&
                         _selectedUnit != null) {
-                      UserItem userModel = UserItem(
+                      InventoryModel data = InventoryModel(
                         category: _selectedCriteria!,
                         itemName: _itemName!,
                         quantity: _quantity!,
-                        userId: '1234',
+                        unit: _selectedUnit!,
                       );
                       await _firebaseFirestore
-                          .collection("UserItems")
+                          .collection("Inventory")
                           .doc()
-                          .set(userModel.toJson());
+                          .set(data.toJson());
                       Navigator.pop(context);
                     } else {
-                      // Show an error message or handle validation
                       print("Please fill all fields");
                     }
                   },

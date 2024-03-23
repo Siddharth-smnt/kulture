@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mandar_purushottam_s_application1/UserMode/RecipeModel.dart';
+import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 
 class AddRecipeScreen extends StatefulWidget {
   @override
-  _AddItemScreenState createState() => _AddItemScreenState();
+  _AddRecipeScreenState createState() => _AddRecipeScreenState();
 }
 
 class Entry {
@@ -13,7 +13,7 @@ class Entry {
   Entry(this.name, this.quantity);
 }
 
-class _AddItemScreenState extends State<AddRecipeScreen> {
+class _AddRecipeScreenState extends State<AddRecipeScreen> {
   String? _recipeName;
   String? _recipeDescription;
   List<Entry> _recipeItems = []; // Initialize the list properly
@@ -166,16 +166,17 @@ class _AddItemScreenState extends State<AddRecipeScreen> {
     if (_recipeName != null &&
         _recipeDescription != null &&
         _recipeItems.isNotEmpty) {
-      RecipeItems recipeModel = RecipeItems(
-        name: _recipeName!,
-        description: _recipeDescription!,
-        items: _recipeItems,
-        userId: '1234',
+      RecipeModel recipeModel = RecipeModel(
+        recipeName: _recipeName!,
+        recipeDescription: _recipeDescription!,
+        ingredients: _recipeItems
+            .map((entry) => IngredientModel(
+                name: entry.name, quantity: entry.quantity, unit: ''))
+            .toList(),
       );
       await _firebaseFirestore
           .collection("RecipeItems")
-          .doc()
-          .set(recipeModel.toJson());
+          .add(recipeModel.toJson());
       Navigator.pop(context);
     } else {
       // Show an error message or handle validation
