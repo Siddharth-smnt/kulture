@@ -7,16 +7,10 @@ class AddRecipeScreen extends StatefulWidget {
   _AddRecipeScreenState createState() => _AddRecipeScreenState();
 }
 
-class Entry {
-  String name;
-  int quantity;
-  Entry(this.name, this.quantity);
-}
-
 class _AddRecipeScreenState extends State<AddRecipeScreen> {
   String? _recipeName;
   String? _recipeDescription;
-  List<Entry> _recipeItems = []; // Initialize the list properly
+  List<IngredientModel> _recipeItems = [];
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   @override
@@ -79,6 +73,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
             ),
             SizedBox(height: 12.0),
             ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: _recipeItems.length,
               itemBuilder: (context, index) {
@@ -114,51 +109,88 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   }
 
   Widget _buildIngredientRow(int index) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 2,
-          child: TextFormField(
-            decoration: InputDecoration(
-              labelText: 'Ingredient Name',
-              hintText: 'Enter Ingredient Name',
-            ),
-            onChanged: (value) {
-              setState(() {
-                _recipeItems[index].name = value;
-              });
-            },
+    return Container(
+      color: Colors.grey[200],
+      margin: EdgeInsetsDirectional.symmetric(vertical: 5),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Ingredient Name',
+                    hintText: 'Enter Ingredient Name',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _recipeItems[index].name = value;
+                    });
+                  },
+                ),
+              ),
+            ],
           ),
-        ),
-        SizedBox(width: 12.0),
-        Expanded(
-          child: TextFormField(
-            decoration: InputDecoration(
-              labelText: 'Quantity',
-              hintText: 'Enter Quantity',
-            ),
-            onChanged: (value) {
-              setState(() {
-                _recipeItems[index].quantity = int.tryParse(value) ?? 0;
-              });
-            },
+          Row(
+            children: [
+              SizedBox(width: 8.0),
+              Expanded(
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Quantity',
+                    hintText: 'Enter Quantity',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _recipeItems[index].quantity = int.tryParse(value) ?? 0;
+                    });
+                  },
+                ),
+              ),
+              Expanded(
+                child: DropdownButton<String>(
+                  value: _recipeItems[index].unit,
+                  items: [
+                    DropdownMenuItem<String>(
+                      child: Text('Select Unit'),
+                      value: '',
+                    ),
+                    DropdownMenuItem<String>(
+                      child: Text('kg'),
+                      value: 'kg',
+                    ),
+                    DropdownMenuItem<String>(
+                      child: Text('grams'),
+                      value: 'grams',
+                    ),
+                  ],
+                  onChanged: (String? value) {
+                    setState(() {
+                      _recipeItems[index].unit = value ?? '';
+                    });
+                  },
+                  hint: Text('Select Unit'),
+                  dropdownColor: Colors.white,
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  setState(() {
+                    _recipeItems.removeAt(index);
+                  });
+                },
+              ),
+            ],
           ),
-        ),
-        IconButton(
-          icon: Icon(Icons.delete),
-          onPressed: () {
-            setState(() {
-              _recipeItems.removeAt(index);
-            });
-          },
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   void _addIngredient() {
     setState(() {
-      _recipeItems.add(Entry('', 0)); // Add a new Entry
+      _recipeItems.add(IngredientModel(name: "", quantity: 0, unit: ""));
     });
   }
 
@@ -169,17 +201,14 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       RecipeModel recipeModel = RecipeModel(
         recipeName: _recipeName!,
         recipeDescription: _recipeDescription!,
-        ingredients: _recipeItems
-            .map((entry) => IngredientModel(
-                name: entry.name, quantity: entry.quantity, unit: ''))
-            .toList(),
+        ingredients: _recipeItems,
       );
       await _firebaseFirestore
-          .collection("RecipeItems")
-          .add(recipeModel.toJson());
+          .collection("Recipes")
+          .doc()
+          .set(recipeModel.toJson());
       Navigator.pop(context);
     } else {
-      // Show an error message or handle validation
       print("Please fill all fields");
     }
   }

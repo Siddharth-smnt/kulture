@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
-import 'package:mandar_purushottam_s_application1/add_stock.dart';
+import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/add_stock.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
+import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/add_stock.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/bloc/kitchen_bloc.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/models/kitchen_model.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/widgets/Inventory_Item_Widget.dart';
