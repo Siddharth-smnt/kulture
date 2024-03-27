@@ -126,8 +126,7 @@ class RecipeScreen extends StatelessWidget {
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     subtitle: Text(
-                                      ingredient.quantity ??
-                                          'Quantity not specified',
+                                      ingredient.quantity.toString(),
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   );

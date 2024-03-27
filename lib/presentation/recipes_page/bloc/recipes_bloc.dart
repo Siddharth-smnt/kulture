@@ -17,9 +17,11 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
     RecipesInitialEvent event,
     Emitter<RecipesState> emit,
   ) async {
+    List<RecipeItemModel> initialList = await fillRecipeItemList();
+    print(initialList);
     emit(state.copyWith(
-        recipesModelObj: state.recipesModelObj
-            ?.copyWith(recipeItemList: fillRecipeItemList())));
+        recipesModelObj:
+            state.recipesModelObj?.copyWith(recipeItemList: initialList)));
   }
 
 // creates 4 default recipes
@@ -28,59 +30,59 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
       recipeName: "Poha",
       recipeDescription: "Poha recipe description",
       ingredients: [
-        IngredientsListModel(name: "Poha", quantity: "1", unit: "kg"),
-        IngredientsListModel(name: "Water", quantity: "2", unit: "kg"),
-        IngredientsListModel(name: "Kanda", quantity: "2", unit: "kg"),
-        IngredientsListModel(name: "Batata", quantity: "2", unit: "kg"),
-        IngredientsListModel(name: "oil", quantity: "1", unit: "kg"),
-        IngredientsListModel(name: "Mirchi", quantity: "2", unit: "kg"),
+        IngredientsListModel(name: "Poha", quantity: 1, unit: "kg"),
+        IngredientsListModel(name: "Water", quantity: 2, unit: "kg"),
+        IngredientsListModel(name: "Kanda", quantity: 2, unit: "kg"),
+        IngredientsListModel(name: "Batata", quantity: 2, unit: "kg"),
+        IngredientsListModel(name: "oil", quantity: 1, unit: "kg"),
+        IngredientsListModel(name: "Mirchi", quantity: 2, unit: "kg"),
       ],
     ),
     RecipeItemModel(
       recipeName: "Sabudana Khichdi",
       recipeDescription: "Sabudana Khichdi recipe description",
       ingredients: [
-        IngredientsListModel(name: "Sabudana", quantity: "1", unit: "kg"),
-        IngredientsListModel(name: "Water", quantity: "2", unit: "kg")
+        IngredientsListModel(name: "Sabudana", quantity: 1, unit: "kg"),
+        IngredientsListModel(name: "Water", quantity: 2, unit: "kg")
       ],
     ),
     RecipeItemModel(
       recipeName: "Dal Khichdi",
       recipeDescription: "Dal Khichdi recipe description",
       ingredients: [
-        IngredientsListModel(name: "Dal", quantity: "1", unit: "kg"),
-        IngredientsListModel(name: "Rice", quantity: "4", unit: "kg")
+        IngredientsListModel(name: "Dal", quantity: 1, unit: "kg"),
+        IngredientsListModel(name: "Rice", quantity: 4, unit: "kg")
       ],
     ),
     RecipeItemModel(
       recipeName: "Dal Tadka",
       recipeDescription: "Dal Tadka recipe description",
       ingredients: [
-        IngredientsListModel(name: "Dal", quantity: "1", unit: "kg"),
-        IngredientsListModel(name: "Water", quantity: "2", unit: "kg")
+        IngredientsListModel(name: "Dal", quantity: 1, unit: "kg"),
+        IngredientsListModel(name: "Water", quantity: 2, unit: "kg")
       ],
     ),
   ];
 
-  List<RecipeItemModel> fillRecipeItemList() {
+  Future<List<RecipeItemModel>> fillRecipeItemList() async {
     List<RecipeItemModel> firebaseRecipes = [];
+    try {
+      // Fetch recipes from Firestore
+      var querySnapshot =
+          await FirebaseFirestore.instance.collection('Recipes').get();
 
-    // Fetch recipes from Firestore
-    FirebaseFirestore.instance
-        .collection('recipes')
-        .get()
-        .then((querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        Map<String, dynamic> data = doc.data();
         // Assuming your RecipeItemModel class has a constructor that takes a Map
         RecipeItemModel recipe = RecipeItemModel.fromJson(data);
         firebaseRecipes.add(recipe);
       });
-    }).catchError((error) {
-      // Handle errors here
-      print("Error fetching recipes: $error");
-    });
-
-    return defaultRecipes + firebaseRecipes;
+      defaultRecipes.addAll(firebaseRecipes);
+      print(defaultRecipes);
+      return defaultRecipes;
+    } catch (e) {
+      print("Error catching recipes: $e");
+      return defaultRecipes;
+    }
   }
 }

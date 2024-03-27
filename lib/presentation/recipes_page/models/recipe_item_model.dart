@@ -36,7 +36,7 @@ class IngredientsListModel {
   IngredientsListModel(
       {required this.name, required this.quantity, required this.unit});
   String name;
-  String quantity;
+  int quantity;
   String unit;
   // Method to convert JSON object to IngredientsListModel object
   factory IngredientsListModel.fromJson(Map<String, dynamic> json) {
