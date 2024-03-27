@@ -13,18 +13,28 @@ class EditItemScreen extends StatefulWidget {
 }
 
 class _EditItemScreenState extends State<EditItemScreen> {
-  late InventoryModel item;
-  @override
-  void initState() {
-    super.initState();
-    item = widget.itemObj;
-  }
-
-  String? _selectedCriteria = item.category;
+  String? _docId;
+  String? _selectedCriteria;
   String? _itemName;
   int? _quantity;
   String? _selectedUnit;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
+  TextEditingController _itemNameController = TextEditingController();
+  TextEditingController _quantityController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedCriteria = widget.itemObj.category;
+    _itemName = widget.itemObj.itemName;
+    _quantity = widget.itemObj.quantity;
+    _selectedUnit = widget.itemObj.unit;
+    _docId = widget.docId;
+
+    _itemNameController.text = widget.itemObj.itemName;
+    _quantityController.text = widget.itemObj.quantity.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +87,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             TextField(
+              controller: _itemNameController,
               decoration: InputDecoration(
                 hintText: 'Enter Item Name',
               ),
@@ -95,6 +106,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: _quantityController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: 'Enter Quantity',
@@ -162,7 +174,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       );
                       await _firebaseFirestore
                           .collection("Inventory")
-                          .doc()
+                          .doc(_docId)
                           .set(data.toJson());
                       Navigator.pop(context);
                     } else {
@@ -173,7 +185,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     primary: Color(0xFFCC5602),
                   ),
                   child: Text(
-                    'Add',
+                    'Update',
                     style: TextStyle(fontSize: 12.0, color: Colors.white),
                   ),
                 ),

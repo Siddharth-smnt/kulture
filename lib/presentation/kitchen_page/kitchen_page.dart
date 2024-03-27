@@ -3,9 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/add_stock.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
-import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/add_stock.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/bloc/kitchen_bloc.dart';
-import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/models/kitchen_model.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/widgets/Inventory_Item_Widget.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image_1.dart';
@@ -17,10 +15,9 @@ class KitchenPage extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<KitchenBloc>(
-      create: (context) => KitchenBloc(KitchenState(
-        kitchenModelObj: KitchenModel(),
-      ))
-        ..add(KitchenInitialEvent()),
+      create: (context) =>
+          KitchenBloc(KitchenState(kitchenList: List.empty(growable: true)))
+            ..add(KitchenInitialEvent()),
       child: KitchenPage(),
     );
   }
@@ -106,6 +103,32 @@ class KitchenPage extends StatelessWidget {
                     }
                   },
                 ),
+                //  BlocBuilder<KitchenBloc, KitchenState>(
+                //     builder: (context, state) {
+                //   final itemList = state.kitchenList;
+                //   if (itemList.isEmpty) {
+                //     return Center(
+                //       child: Text("No Items Available"),
+                //     );
+                //   }
+                //   final condimentsList = itemList
+                //       .where((item) => item.category == "Condiments")
+                //       .toList();
+                //   return GridView.builder(
+                //       shrinkWrap: true,
+                //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //         mainAxisExtent: 153.v,
+                //         crossAxisCount: 2,
+                //         mainAxisSpacing: 32.h,
+                //         crossAxisSpacing: 32.h,
+                //       ),
+                //       physics: NeverScrollableScrollPhysics(),
+                //       itemCount: condimentsList.length,
+                //       itemBuilder: (context, index) {
+                //         return InventoryItemWidget(condimentsList[index],
+                //             docId: condimentsList[index].id!);
+                //       });
+                // }),
                 SizedBox(height: 37.v),
                 Text(
                   "lbl_vegetables".tr,

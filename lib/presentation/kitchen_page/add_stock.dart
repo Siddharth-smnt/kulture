@@ -150,8 +150,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       );
                       await _firebaseFirestore
                           .collection("Inventory")
-                          .doc()
-                          .set(data.toJson());
+                          .add(data.toJson())
+                          .then((DocumentReference doc) async {
+                        await doc.update({'id': doc.id});
+                      });
                       Navigator.pop(context);
                     } else {
                       print("Please fill all fields");

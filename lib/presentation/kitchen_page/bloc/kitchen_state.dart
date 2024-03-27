@@ -4,17 +4,14 @@ part of 'kitchen_bloc.dart';
 
 /// Represents the state of Kitchen in the application.
 class KitchenState extends Equatable {
-  KitchenState({this.kitchenModelObj});
+  KitchenState({this.kitchenList = const []});
 
-  KitchenModel? kitchenModelObj;
+  List<InventoryModel> kitchenList;
+
+  KitchenState copyWith({List<InventoryModel>? kitchenList}) {
+    return KitchenState(kitchenList: kitchenList ?? this.kitchenList);
+  }
 
   @override
-  List<Object?> get props => [
-        kitchenModelObj,
-      ];
-  KitchenState copyWith({KitchenModel? kitchenModelObj}) {
-    return KitchenState(
-      kitchenModelObj: kitchenModelObj ?? this.kitchenModelObj,
-    );
-  }
+  List<Object?> get props => [kitchenList];
 }
