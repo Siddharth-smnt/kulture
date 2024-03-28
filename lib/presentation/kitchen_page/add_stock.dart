@@ -56,8 +56,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 });
               },
               hint: Text('Select Criteria'),
-              dropdownColor:
-                  Colors.white, // Setting dropdown menu color to white
+              dropdownColor: Colors.white,
             ),
             SizedBox(height: 16.0),
             Text(
@@ -65,6 +64,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             TextField(
+              style: TextStyle(color: Colors.black), // Set text color to black
               decoration: InputDecoration(
                 hintText: 'Enter Item Name',
               ),
@@ -83,6 +83,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               children: [
                 Expanded(
                   child: TextField(
+                    style: TextStyle(color: Colors.black),
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: 'Enter Quantity',
@@ -114,8 +115,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       });
                     },
                     hint: Text('Select Unit'),
-                    dropdownColor:
-                        Colors.white, // Setting dropdown menu color to white
+                    dropdownColor: Colors.white,
                   ),
                 ),
               ],

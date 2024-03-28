@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mandar_purushottam_s_application1/presentation/recipes_page/screen/edit_recipe_screen.dart';
 import '../models/recipe_item_model.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image_2.dart';
@@ -33,6 +34,20 @@ class RecipeScreen extends StatelessWidget {
                           Navigator.pop(context); // Navigate back
                         },
                       ),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditRecipeScreen(recipeObj: recipe),
+                              ),
+                            );
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
+                      ],
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,

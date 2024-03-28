@@ -78,8 +78,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 });
               },
               hint: Text('Select Criteria'),
-              dropdownColor:
-                  Colors.white, // Setting dropdown menu color to white
+              dropdownColor: Colors.white,
             ),
             SizedBox(height: 16.0),
             Text(
@@ -88,6 +87,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
             ),
             TextField(
               controller: _itemNameController,
+              style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
                 hintText: 'Enter Item Name',
               ),
@@ -107,6 +107,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 Expanded(
                   child: TextField(
                     controller: _quantityController,
+                    style: TextStyle(color: Colors.black),
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: 'Enter Quantity',
@@ -138,8 +139,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       });
                     },
                     hint: Text('Select Unit'),
-                    dropdownColor:
-                        Colors.white, // Setting dropdown menu color to white
+                    dropdownColor: Colors.white,
                   ),
                 ),
               ],

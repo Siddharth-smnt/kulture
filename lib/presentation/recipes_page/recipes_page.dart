@@ -23,8 +23,6 @@ class RecipesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
-
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(
@@ -41,83 +39,6 @@ class RecipesPage extends StatelessWidget {
                 width: double.maxFinite,
                 decoration: BoxDecoration(color: appTheme.orangeA700),
               ),
-              // Padding(
-              //   padding: EdgeInsets.only(left: 24.h, top: 35.v, right: 24.h),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       GestureDetector(
-              //         onTap: () {
-              //           onTapRecipe1(context);
-              //         },
-              //         child: Container(
-              //           padding: EdgeInsets.symmetric(
-              //               horizontal: 12.h, vertical: 16.v),
-              //           decoration: AppDecoration.outlinePrimary.copyWith(
-              //             borderRadius: BorderRadiusStyle.roundedBorder20,
-              //           ),
-              //           child: Column(
-              //             mainAxisSize: MainAxisSize.min,
-              //             children: [
-              //               SizedBox(
-              //                 height: 87.v,
-              //                 width: 140.h,
-              //                 child: Stack(
-              //                   alignment: Alignment.bottomCenter,
-              //                   children: [
-              //                     CustomImageView(
-              //                       imagePath: ImageConstant.imgImage12,
-              //                       height: 87.v,
-              //                       width: 140.h,
-              //                       alignment: Alignment.center,
-              //                     ),
-              //                     CustomImageView(
-              //                       imagePath: ImageConstant.imgImage12,
-              //                       height: 6.v,
-              //                       width: 10.h,
-              //                       alignment: Alignment.bottomCenter,
-              //                       margin: EdgeInsets.only(bottom: 36.v),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               SizedBox(height: 23.v),
-              //               Text(
-              //                 "msg_sabudana_khichdi".tr,
-              //                 style: CustomTextStyles.titleMediumPrimary,
-              //               ),
-              //               SizedBox(height: 10.v),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //       Container(
-              //         margin: EdgeInsets.only(left: 15.h),
-              //         padding: EdgeInsets.symmetric(
-              //             horizontal: 12.h, vertical: 16.v),
-              //         decoration: AppDecoration.outlinePrimary.copyWith(
-              //           borderRadius: BorderRadiusStyle.roundedBorder20,
-              //         ),
-              //         child: Column(
-              //           mainAxisSize: MainAxisSize.min,
-              //           children: [
-              //             CustomImageView(
-              //               imagePath: ImageConstant.imgImage13,
-              //               height: 87.v,
-              //               width: 140.h,
-              //             ),
-              //             SizedBox(height: 23.v),
-              //             Text(
-              //               "lbl_puri_chole".tr,
-              //               style: CustomTextStyles.titleMediumPrimary,
-              //             ),
-              //             SizedBox(height: 10.v),
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(left: 24.h, top: 32.v, right: 24.h),

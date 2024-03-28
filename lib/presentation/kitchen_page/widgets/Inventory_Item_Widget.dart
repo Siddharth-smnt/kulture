@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
 import 'package:flutter/material.dart';
+import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/edit_stock.dart';
 
@@ -64,7 +64,7 @@ class InventoryItemWidget extends StatelessWidget {
                     },
                   ),
                   Text(
-                    "Count : ${inventoryItemModelObj.quantity}",
+                    "${inventoryItemModelObj.quantity} ${inventoryItemModelObj.unit}",
                     style: TextStyle(color: Colors.black),
                     textAlign: TextAlign.center,
                   ),
