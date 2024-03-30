@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/screen/edit_recipe_screen.dart';
-import '../models/recipe_item_model.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image_2.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
@@ -8,7 +8,7 @@ import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar
 class RecipeScreen extends StatelessWidget {
   RecipeScreen(this.recipe, {Key? key}) : super(key: key);
 
-  final RecipeItemModel recipe;
+  final RecipeModel recipe;
 
   @override
   Widget build(BuildContext context) {

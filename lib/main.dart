@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mandar_purushottam_s_application1/firebase_options.dart';
+import 'package:mandar_purushottam_s_application1/presentation/authentication_screen/onboarding_screen.dart';
+import 'package:mandar_purushottam_s_application1/presentation/authentication_screen/user_info_screen.dart';
 import 'core/app_export.dart';
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -10,11 +14,8 @@ void main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp(
-      options: FirebaseOptions(
-          apiKey: "AIzaSyCxgWLQAwUH85ocYwdeWPCv7eodvISOFZM",
-          appId: "1:334536738299:android:63cb49577f44075837375e",
-          messagingSenderId: "334536738299",
-          projectId: "kulture-7f415"));
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // Other initialization code
   await Future.wait([
@@ -55,11 +56,26 @@ class MyApp extends StatelessWidget {
                 '',
               ),
             ],
-            initialRoute: AppRoutes.initialRoute,
+            // initialRoute: AppRoutes.initialRoute,
+            home: const AuthWrapper(),
             routes: AppRoutes.routes,
           );
         },
       ),
     );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User?>();
+
+    if (firebaseUser != null) {
+      return const HomeScreen();
+    }
+    return const OnBoardingScreen();
   }
 }

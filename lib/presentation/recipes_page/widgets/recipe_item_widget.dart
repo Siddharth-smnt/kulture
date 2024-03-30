@@ -1,13 +1,12 @@
+import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/screen/recipe_screen.dart';
-
-import '../models/recipe_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 
 class RecipeItemWidget extends StatelessWidget {
   RecipeItemWidget(this.recipeItemModelObj, {Key? key}) : super(key: key);
 
-  final RecipeItemModel recipeItemModelObj;
+  final RecipeModel recipeItemModelObj;
 
   @override
   Widget build(BuildContext context) {
