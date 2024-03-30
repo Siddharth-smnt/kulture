@@ -4,7 +4,6 @@ part of 'recipes_bloc.dart';
 
 /// Abstract class for all events that can be dispatched from the
 ///Recipes widget.
-///
 /// Events must be immutable and implement the [Equatable] interface.
 @immutable
 abstract class RecipesEvent extends Equatable {}

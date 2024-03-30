@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
-import 'package:mandar_purushottam_s_application1/presentation/recipes_page/models/recipe_item_model.dart';
 
 class EditRecipeScreen extends StatefulWidget {
   EditRecipeScreen({required this.recipeObj});
-  final RecipeItemModel recipeObj;
+  final RecipeModel recipeObj;
   @override
   _EditRecipeScreenState createState() => _EditRecipeScreenState();
 }
@@ -13,7 +12,7 @@ class EditRecipeScreen extends StatefulWidget {
 class _EditRecipeScreenState extends State<EditRecipeScreen> {
   String? _recipeName;
   String? _recipeDescription;
-  List<IngredientsListModel> _recipeItems = [];
+  List<IngredientModel> _recipeItems = [];
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   @override

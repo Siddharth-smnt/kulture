@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_container_screen/kitchen_container_screen.dart';
-import 'package:mandar_purushottam_s_application1/presentation/sabudana_khichdi_screen/sabudana_khichdi_screen.dart';
 import 'package:mandar_purushottam_s_application1/presentation/estimate_one_screen/estimate_one_screen.dart';
 import 'package:mandar_purushottam_s_application1/presentation/app_navigation_screen/app_navigation_screen.dart';
 
@@ -25,7 +24,6 @@ class AppRoutes {
 
   static Map<String, WidgetBuilder> get routes => {
         kitchenContainerScreen: KitchenContainerScreen.builder,
-        sabudanaKhichdiScreen: SabudanaKhichdiScreen.builder,
         estimateOneScreen: EstimateOneScreen.builder,
         appNavigationScreen: AppNavigationScreen.builder,
         initialRoute: KitchenContainerScreen.builder
