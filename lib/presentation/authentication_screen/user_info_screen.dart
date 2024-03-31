@@ -32,18 +32,21 @@ class HomeScreen extends StatelessWidget {
                     .sendEmailVerification(context);
               },
               text: 'Verify Email',
+              textStyles: TextStyle(color: Colors.white),
             ),
           CustomButton(
             onTap: () {
               context.read<FirebaseAuthMethods>().signOut(context);
             },
             text: 'Sign Out',
+            textStyles: TextStyle(color: Colors.white),
           ),
           CustomButton(
             onTap: () {
               context.read<FirebaseAuthMethods>().deleteAccount(context);
             },
             text: 'Delete Account',
+            textStyles: TextStyle(color: Colors.white),
           ),
         ],
       ),

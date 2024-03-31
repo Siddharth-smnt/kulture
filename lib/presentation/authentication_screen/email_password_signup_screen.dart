@@ -16,7 +16,7 @@ class _EmailPasswordSignupState extends State<EmailPasswordSignup> {
   final TextEditingController passwordController = TextEditingController();
 
   void signUpUser() async {
-    await context.read<FirebaseAuthMethods>().signUpWithEmail(
+    context.read<FirebaseAuthMethods>().signUpWithEmail(
           email: emailController.text,
           password: passwordController.text,
           context: context,

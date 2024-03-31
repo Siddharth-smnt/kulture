@@ -6,6 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mandar_purushottam_s_application1/firebase_options.dart';
 import 'package:mandar_purushottam_s_application1/presentation/authentication_screen/onboarding_screen.dart';
 import 'package:mandar_purushottam_s_application1/presentation/authentication_screen/user_info_screen.dart';
+import 'package:mandar_purushottam_s_application1/presentation/services/firebase_auth_methods.dart';
+import 'package:provider/provider.dart';
 import 'core/app_export.dart';
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -39,27 +41,38 @@ class MyApp extends StatelessWidget {
       ),
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
-          return MaterialApp(
-            theme: theme,
-            title: 'Kulture',
-            navigatorKey: NavigatorService.navigatorKey,
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: [
-              AppLocalizationDelegate(),
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: [
-              Locale(
-                'en',
-                '',
-              ),
-            ],
-            // initialRoute: AppRoutes.initialRoute,
-            home: const AuthWrapper(),
-            routes: AppRoutes.routes,
-          );
+          return MultiProvider(
+              providers: [
+                Provider<FirebaseAuthMethods>(
+                  create: (_) => FirebaseAuthMethods(FirebaseAuth.instance),
+                ),
+                StreamProvider(
+                  create: (context) =>
+                      context.read<FirebaseAuthMethods>().authState,
+                  initialData: null,
+                ),
+              ],
+              child: MaterialApp(
+                theme: theme,
+                title: 'Kulture',
+                navigatorKey: NavigatorService.navigatorKey,
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: [
+                  AppLocalizationDelegate(),
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: [
+                  Locale(
+                    'en',
+                    '',
+                  ),
+                ],
+                // initialRoute: AppRoutes.initialRoute,
+                home: const AuthWrapper(),
+                routes: AppRoutes.routes,
+              ));
         },
       ),
     );

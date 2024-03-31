@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:mandar_purushottam_s_application1/utils/showSnackbar.dart';
 
 class FirebaseAuthMethods {
@@ -20,7 +21,7 @@ class FirebaseAuthMethods {
   // OTHER WAYS (depends on use case):
   // Stream get authState => FirebaseAuth.instance.userChanges();
   // Stream get authState => FirebaseAuth.instance.idTokenChanges();
-
+  // KNOW MORE ABOUT THEM HERE: https://firebase.flutter.dev/docs/auth/start#auth-state
   // EMAIL SIGN UP
   Future<void> signUpWithEmail({
     required String email,
