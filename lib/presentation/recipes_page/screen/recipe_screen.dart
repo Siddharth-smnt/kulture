@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mandar_purushottam_s_application1/UserModel/EstimateModel.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/screen/edit_recipe_screen.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
@@ -9,6 +11,7 @@ class RecipeScreen extends StatelessWidget {
   RecipeScreen(this.recipe, {Key? key}) : super(key: key);
 
   final RecipeModel recipe;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +111,7 @@ class RecipeScreen extends StatelessWidget {
                         SizedBox(
                           width: 342.h,
                           child: Text(
-                            recipe.recipeDescription ?? "No description",
+                            recipe.recipeDescription,
                             maxLines: 5,
                             overflow: TextOverflow.ellipsis,
                             style: CustomTextStyles.bodyMediumFigtreePrimary
@@ -131,10 +134,9 @@ class RecipeScreen extends StatelessWidget {
                               ListView.builder(
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: recipe.ingredients?.length ??
-                                    0, // Check for null
+                                itemCount: recipe.ingredients.length,
                                 itemBuilder: (context, index) {
-                                  final ingredient = recipe.ingredients![index];
+                                  final ingredient = recipe.ingredients[index];
                                   return ListTile(
                                     title: Text(
                                       ingredient.name,
@@ -146,6 +148,13 @@ class RecipeScreen extends StatelessWidget {
                                     ),
                                   );
                                 },
+                              ),
+                              ElevatedButton(
+                                onPressed: _addToEstimate,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFFCC5602),
+                                ),
+                                child: Text('Add to Estimate'),
                               ),
                             ],
                           ),
@@ -160,5 +169,21 @@ class RecipeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _addToEstimate() async {
+    EstimateModel model = EstimateModel(
+      recipeId: recipe.id,
+      recipeName: recipe.recipeName,
+      people: countPeople(),
+    );
+    print(model);
+    // await _firebaseFirestore.collection("Estimate").add(model.toJson());
+  }
+
+  int countPeople() {
+    int count = 0;
+
+    return count;
   }
 }

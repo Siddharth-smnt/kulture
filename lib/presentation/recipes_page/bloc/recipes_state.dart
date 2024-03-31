@@ -8,11 +8,12 @@ class RecipesState extends Equatable {
 
   RecipeListModel? recipesModelObj;
 
-  @override
-  List<Object?> get props => [recipesModelObj];
   RecipesState copyWith({RecipeListModel? recipesModelObj}) {
     return RecipesState(
       recipesModelObj: recipesModelObj ?? this.recipesModelObj,
     );
   }
+
+  @override
+  List<Object?> get props => [recipesModelObj];
 }

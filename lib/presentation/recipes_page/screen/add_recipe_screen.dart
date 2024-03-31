@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
+import 'package:mandar_purushottam_s_application1/presentation/recipes_page/bloc/recipes_bloc.dart';
+import 'package:mandar_purushottam_s_application1/presentation/recipes_page/models/recipes_model.dart';
 
 class AddRecipeScreen extends StatefulWidget {
   @override
@@ -12,6 +14,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   String? _recipeDescription;
   List<IngredientModel> _recipeItems = [];
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  RecipesBloc recipesBloc =
+      RecipesBloc(RecipesState(recipesModelObj: RecipeListModel()));
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +215,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
           .collection("Recipes")
           .doc()
           .set(recipeModel.toJson());
+
+      recipesBloc..add(RefreshRecipesEvent());
       Navigator.pop(context);
     } else {
       print("Please fill all fields");

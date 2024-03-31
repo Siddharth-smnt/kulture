@@ -1,9 +1,11 @@
-class RecipeModel {
-  String? id;
-  String recipeName;
-  String recipeDescription;
-  String? imageUrl;
-  List<IngredientModel> ingredients;
+import 'package:equatable/equatable.dart';
+
+class RecipeModel extends Equatable {
+  final String? id;
+  final String recipeName;
+  final String recipeDescription;
+  final String? imageUrl;
+  final List<IngredientModel> ingredients;
 
   RecipeModel({
     this.id,
@@ -41,6 +43,10 @@ class RecipeModel {
         this.ingredients.map((ingredient) => ingredient.toJson()).toList();
     return data;
   }
+
+  @override
+  List<Object?> get props =>
+      [id, recipeName, recipeDescription, imageUrl, ingredients];
 }
 
 class IngredientModel {

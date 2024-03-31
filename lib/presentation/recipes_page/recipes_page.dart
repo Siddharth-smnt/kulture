@@ -43,6 +43,7 @@ class RecipesPage extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(left: 24.h, top: 32.v, right: 24.h),
                   child: BlocBuilder<RecipesBloc, RecipesState>(
+                    buildWhen: (previous, current) => previous != current,
                     builder: (context, state) {
                       final recipesModelObj = state.recipesModelObj;
                       if (recipesModelObj == null ||

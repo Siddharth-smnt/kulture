@@ -13,3 +13,15 @@ class RecipesInitialEvent extends RecipesEvent {
   @override
   List<Object?> get props => [];
 }
+
+class RefreshRecipesEvent extends RecipesEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class AddToEstimateEvent extends RecipesEvent {
+  RecipeModel recipe;
+  AddToEstimateEvent({required this.recipe});
+  @override
+  List<Object?> get props => [];
+}

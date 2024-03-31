@@ -6,12 +6,14 @@ class UserModel {
   String name;
   InventoryModel? inventory;
   RecipeModel? recipes;
+  List<IngredientModel> toBuyItems;
 
   UserModel({
     required this.uid,
     required this.name,
     this.inventory,
     this.recipes,
+    this.toBuyItems = const [],
   });
 
 // Method to convert JSON object to UserModel object
@@ -59,11 +61,29 @@ class UserModel {
         }
       ]
 
-      RECIPES <C> [
+      RECIPES <C> [{Poha}, {Upma}, {Vada}]
+
+      ESTIMATE <C> [
         {
-          
+          recipeId
+          recipeName
+          people
         }
       ]
+      tobuyitems = [{itemName, quantity, unit}]
     }
   ]
+
+Estimate Page
+rendering
+
+POHA => people increase decreaes
+UPMA => people increase decreaes
+VADA => 0 increase decreaes
+
+Need to Buy Box {
+  itemName
+  quantity
+}
+
 */

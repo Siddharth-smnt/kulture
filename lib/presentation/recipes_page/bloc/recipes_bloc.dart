@@ -11,6 +11,17 @@ part 'recipes_state.dart';
 class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
   RecipesBloc(RecipesState initialState) : super(initialState) {
     on<RecipesInitialEvent>(_onInitialize);
+    on<RefreshRecipesEvent>(_refreshRecipes);
+  }
+
+  void _refreshRecipes(
+      RefreshRecipesEvent event, Emitter<RecipesState> emit) async {
+    List<RecipeModel> newList = await fillRecipeItemList();
+    print("AAAAAAAAAAAAAAAAAA___ NEW LIST ___AAAAAAAAAAAAAAAAAAAAAA");
+    print(newList);
+    emit(state.copyWith(
+        recipesModelObj:
+            state.recipesModelObj?.copyWith(recipeItemList: newList)));
   }
 
   void _onInitialize(

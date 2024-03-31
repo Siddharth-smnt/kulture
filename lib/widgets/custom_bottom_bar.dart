@@ -4,7 +4,7 @@ import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 class CustomBottomBar extends StatefulWidget {
   CustomBottomBar({this.onChanged});
 
-  Function(BottomBarEnum)? onChanged;
+  final Function(BottomBarEnum)? onChanged;
 
   @override
   CustomBottomBarState createState() => CustomBottomBarState();
