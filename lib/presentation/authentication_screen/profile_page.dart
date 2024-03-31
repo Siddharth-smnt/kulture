@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/widgets/custom_button.dart';
 import 'package:mandar_purushottam_s_application1/presentation/services/firebase_auth_methods.dart';
+import 'package:mandar_purushottam_s_application1/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -37,6 +38,7 @@ class ProfilePage extends StatelessWidget {
           CustomButton(
             onTap: () {
               context.read<FirebaseAuthMethods>().signOut(context);
+              Navigator.pushNamed(context, AppRoutes.onboarding_screen);
             },
             text: 'Sign Out',
             textStyles: TextStyle(color: Colors.white),
@@ -44,6 +46,7 @@ class ProfilePage extends StatelessWidget {
           CustomButton(
             onTap: () {
               context.read<FirebaseAuthMethods>().deleteAccount(context);
+              Navigator.pushNamed(context, AppRoutes.onboarding_screen);
             },
             text: 'Delete Account',
             textStyles: TextStyle(color: Colors.white),

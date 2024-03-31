@@ -5,7 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mandar_purushottam_s_application1/firebase_options.dart';
 import 'package:mandar_purushottam_s_application1/presentation/authentication_screen/onboarding_screen.dart';
-import 'package:mandar_purushottam_s_application1/presentation/authentication_screen/user_info_screen.dart';
+import 'package:mandar_purushottam_s_application1/presentation/authentication_screen/profile_page.dart';
+import 'package:mandar_purushottam_s_application1/presentation/kitchen_container_screen/kitchen_container_screen.dart';
 import 'package:mandar_purushottam_s_application1/presentation/services/firebase_auth_methods.dart';
 import 'package:provider/provider.dart';
 import 'core/app_export.dart';
@@ -87,7 +88,7 @@ class AuthWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      return const HomeScreen();
+      Navigator.pushNamed(context, AppRoutes.kitchenContainerScreen);
     }
     return const OnBoardingScreen();
   }

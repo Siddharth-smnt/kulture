@@ -1,3 +1,5 @@
+import 'package:mandar_purushottam_s_application1/presentation/authentication_screen/profile_page.dart';
+
 import 'bloc/kitchen_container_bloc.dart';
 import 'models/kitchen_container_model.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +58,7 @@ class KitchenContainerScreen extends StatelessWidget {
       case BottomBarEnum.Estimate:
         return AppRoutes.estimatePage;
       case BottomBarEnum.Profile:
-        return "/";
+        return AppRoutes.profilePage;
       default:
         return "/";
     }
@@ -76,6 +78,8 @@ class KitchenContainerScreen extends StatelessWidget {
         return PlannerPage.builder(context);
       case AppRoutes.estimatePage:
         return EstimatePage.builder(context);
+      case AppRoutes.profilePage:
+        return ProfilePage();
       default:
         return DefaultWidget();
     }
