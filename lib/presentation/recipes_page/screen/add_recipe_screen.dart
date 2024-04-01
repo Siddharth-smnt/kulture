@@ -213,8 +213,10 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       );
       await _firebaseFirestore
           .collection("Recipes")
-          .doc()
-          .set(recipeModel.toJson());
+          .add(recipeModel.toJson())
+          .then((DocumentReference doc) async {
+        await doc.update({'id': doc.id});
+      });
 
       recipesBloc..add(RefreshRecipesEvent());
       Navigator.pop(context);

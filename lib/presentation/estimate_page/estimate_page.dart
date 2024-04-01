@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mandar_purushottam_s_application1/UserModel/EstimateModel.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/presentation/estimate_page/bloc/estimate_bloc.dart';
-import 'package:mandar_purushottam_s_application1/presentation/estimate_page/models/estimate_model.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_title.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
 
@@ -11,8 +11,7 @@ class EstimatePage extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider<EstimateBloc>(
       create: (context) =>
-          EstimateBloc(EstimateState(estimateModelObj: EstimateModel()))
-            ..add(EstimateInitialEvent()),
+          EstimateBloc(EstimateState())..add(EstimateInitialEvent()),
       child: EstimatePage(),
     );
   }
@@ -54,7 +53,12 @@ class EstimatePage extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 5.v),
-                      child: _buildTable(),
+                      child: BlocBuilder<EstimateBloc, EstimateState>(
+                        buildWhen: (previous, current) => current != previous,
+                        builder: (context, state) {
+                          return _buildTable(state.estimateModelObj);
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -66,7 +70,16 @@ class EstimatePage extends StatelessWidget {
     });
   }
 
-  Widget _buildTable() {
+  Widget _buildTable(List<EstimateModel>? state) {
+    List<TableRow> rows = [];
+    rows.add(_buildTableRow('Recipe Name', 'Person', 'Add', 'Remove',
+        isHeader: true));
+    if (state != null) {
+      for (var item in state) {
+        rows.add(
+            _buildTableRow(item.recipeName!, item.people.toString(), '+', '-'));
+      }
+    }
     return Table(
       columnWidths: {
         0: FlexColumnWidth(1.85), // Adjust the width of the columns as needed
@@ -75,13 +88,7 @@ class EstimatePage extends StatelessWidget {
         3: FlexColumnWidth(1),
       },
       border: TableBorder.all(),
-      children: [
-        _buildTableRow('Recipe Name', 'Person', 'Add', 'Remove',
-            isHeader: true),
-        _buildTableRow('Recipe 1', '2', '+', '-'), // Example data rows
-        _buildTableRow('Recipe 2', '3', '+', '-'),
-        // Add more rows as needed
-      ],
+      children: rows,
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/EstimateModel.dart';
+import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/screen/edit_recipe_screen.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
@@ -150,7 +151,9 @@ class RecipeScreen extends StatelessWidget {
                                 },
                               ),
                               ElevatedButton(
-                                onPressed: _addToEstimate,
+                                onPressed: () {
+                                  _addToEstimate(context);
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Color(0xFFCC5602),
                                 ),
@@ -171,19 +174,46 @@ class RecipeScreen extends StatelessWidget {
     );
   }
 
-  void _addToEstimate() async {
+  Future<int> countPeople(List<IngredientModel> recipeItems) async {
+    int people = -1;
+
+    QuerySnapshot inventorySnapshot =
+        await FirebaseFirestore.instance.collection('Inventory').get();
+    List<InventoryModel> kitchenDocs = inventorySnapshot.docs
+        .map((doc) =>
+            InventoryModel.fromJson(doc.data() as Map<String, dynamic>))
+        .toList();
+    Map<String, int> availableIngredients = {};
+    for (var item in kitchenDocs) {
+      availableIngredients[item.itemName.toLowerCase()] = item.quantity;
+    }
+
+    for (var recipe in recipeItems) {
+      if (availableIngredients.containsKey(recipe.name.toLowerCase())) {
+        int possibleDishes =
+            availableIngredients[recipe.name.toLowerCase()]! ~/ recipe.quantity;
+        if (people == -1 || possibleDishes < people) {
+          people = possibleDishes;
+        }
+      } else {
+        return 0;
+      }
+    }
+    return people;
+  }
+
+  void _addToEstimate(BuildContext context) async {
     EstimateModel model = EstimateModel(
       recipeId: recipe.id,
       recipeName: recipe.recipeName,
-      people: countPeople(),
+      people: await countPeople(recipe.ingredients),
     );
-    print(model);
-    // await _firebaseFirestore.collection("Estimate").add(model.toJson());
-  }
+    print(model.people);
+    await _firebaseFirestore
+        .collection("Estimate")
+        .doc(model.recipeId)
+        .set(model.toJson());
 
-  int countPeople() {
-    int count = 0;
-
-    return count;
+    Navigator.pop(context);
   }
 }

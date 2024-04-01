@@ -1,10 +1,9 @@
 class EstimateModel {
   String? id;
   String? recipeId;
-  String recipeName;
-  int people;
-  EstimateModel(
-      {required this.recipeName, required this.people, this.id, this.recipeId});
+  String? recipeName;
+  int? people;
+  EstimateModel({this.recipeName, this.people, this.id, this.recipeId});
 
   // Method to convert JSON object to EstimateModel object
   factory EstimateModel.fromJson(Map<String, dynamic> json) {

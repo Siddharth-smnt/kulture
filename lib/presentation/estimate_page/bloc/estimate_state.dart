@@ -6,15 +6,14 @@ part of 'estimate_bloc.dart';
 class EstimateState extends Equatable {
   EstimateState({this.estimateModelObj});
 
-  EstimateModel? estimateModelObj;
+  List<EstimateModel>? estimateModelObj;
 
-  @override
-  List<Object?> get props => [
-        estimateModelObj,
-      ];
-  EstimateState copyWith({EstimateModel? estimateModelObj}) {
+  EstimateState copyWith({List<EstimateModel>? estimateModelObj}) {
     return EstimateState(
       estimateModelObj: estimateModelObj ?? this.estimateModelObj,
     );
   }
+
+  @override
+  List<Object?> get props => [estimateModelObj];
 }
