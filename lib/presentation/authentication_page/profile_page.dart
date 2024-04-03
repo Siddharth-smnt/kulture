@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -9,8 +10,18 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final AuthServices _auth = AuthServices();
+  
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final user = FirebaseAuth.instance.currentUser;
+    print(user);
+    _nameController.text = user?.displayName ?? "";
+    _emailController.text = user?.email ?? "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Welcome, ${snapshot.data!.displayName ?? 'User'}!'),
+                      Text('Welcome, ${snapshot.data!.displayName ?? 'User'}!', style: TextStyle(color: Colors.black),),
                       SizedBox(height: 20),
                       TextField(
                         controller: _nameController,
@@ -69,14 +80,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             }
                           }
                         },
-                        child: Text('Update'),
+                        child: Text('Update', style: TextStyle(color: Colors.white),),
                       ),
                       SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () async {
                           await _auth.logout();
+                          Navigator.pushNamed(context, AppRoutes.initialRoute);
                         },
-                        child: Text('Logout'),
+                        child: Text('Logout', style: TextStyle(color: Colors.white),),
                       ),
                     ],
                   );

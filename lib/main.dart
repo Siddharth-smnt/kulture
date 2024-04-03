@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mandar_purushottam_s_application1/presentation/authentication_page/onboarding_screen.dart';
+import 'package:mandar_purushottam_s_application1/presentation/recipes_page/recipes_page.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import 'core/app_export.dart';
 
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
                 '',
               ),
             ],
-            initialRoute: AppRoutes.initialRoute,
+            // initialRoute: AppRoutes.initialRoute,
             home: const AuthWrapper(),
             routes: AppRoutes.routes,
           );

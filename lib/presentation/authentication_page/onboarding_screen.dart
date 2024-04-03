@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/presentation/authentication_page/login_screen.dart';
 import 'package:mandar_purushottam_s_application1/presentation/authentication_page/signup_screen.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
-import 'package:mandar_purushottam_s_application1/widgets/base_button.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -19,26 +18,24 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            BaseButton(
-                onTap: () {
+            ElevatedButton(
+                onPressed: () {
                   Navigator.pushNamed(context, SignupScreen().routeName);
                 },
-                text: 'Email/Password Sign Up',
-                buttonTextStyle: TextStyle(color: Colors.white),),
-            BaseButton(
-              onTap: () {
+                child: Text('Email/Password Sign Up', style: TextStyle(color: Colors.white),),
+                ),
+            ElevatedButton(
+              onPressed: () {
                 Navigator.pushNamed(context, LoginScreen().routeName);
               },
-              text: 'Email/Password Login',
-              buttonTextStyle: TextStyle(color: Colors.white),
+              child: Text('Email/Password Login', style: TextStyle(color: Colors.white)),
             ),
-            BaseButton(
-              onTap: () async {
+            ElevatedButton(
+              onPressed: () async {
                 AuthServices _auth = AuthServices();
                 await _auth.signInAnon();
               },
-              text: 'Anonymous Sign In',
-              buttonTextStyle: TextStyle(color: Colors.white),
+              child: Text('Anonymous Sign In', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
