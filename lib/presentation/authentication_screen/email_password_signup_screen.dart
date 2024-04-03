@@ -26,47 +26,48 @@ class _EmailPasswordSignupState extends State<EmailPasswordSignup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            "Sign Up",
-            style: TextStyle(fontSize: 30),
+      appBar: AppBar(
+        title: Text(
+          'Sign Up',
+          style: TextStyle(
+            color: Colors.white, // Set text color to white
+            fontWeight: FontWeight.bold, // Set text to bold
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: CustomTextField(
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.orange[700], // Set the background color here
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CustomTextField(
               controller: emailController,
               hintText: 'Enter your email',
             ),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: CustomTextField(
+            SizedBox(height: 20.0),
+            CustomTextField(
               controller: passwordController,
               hintText: 'Enter your password',
             ),
-          ),
-          const SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: signUpUser,
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.blue),
-              textStyle: MaterialStateProperty.all(
-                const TextStyle(color: Colors.white),
+            SizedBox(height: 40.0),
+            ElevatedButton(
+              onPressed: signUpUser,
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFFCC5602), // Set the button color here
+                textStyle:
+                    TextStyle(color: Colors.white), // Set text color to white
+                minimumSize: Size(MediaQuery.of(context).size.width / 2.5, 50),
               ),
-              minimumSize: MaterialStateProperty.all(
-                Size(MediaQuery.of(context).size.width / 2.5, 50),
+              child: Text(
+                "Sign Up",
+                style:
+                    TextStyle(color: Colors.white), // Set text color to white
               ),
             ),
-            child: const Text(
-              "Sign Up",
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

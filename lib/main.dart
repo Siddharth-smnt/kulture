@@ -89,6 +89,7 @@ class AuthWrapper extends StatelessWidget {
 
     if (firebaseUser != null) {
       Navigator.pushNamed(context, AppRoutes.kitchenContainerScreen);
+      // return KitchenContainerScreen();
     }
     return const OnBoardingScreen();
   }

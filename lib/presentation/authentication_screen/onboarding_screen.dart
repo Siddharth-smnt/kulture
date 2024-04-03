@@ -5,42 +5,64 @@ import 'package:mandar_purushottam_s_application1/presentation/recipes_page/widg
 import 'package:mandar_purushottam_s_application1/presentation/services/firebase_auth_methods.dart';
 import 'package:provider/provider.dart';
 
-class OnBoardingScreen extends StatefulWidget {
+class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
   static String routeName = '/onboarding-screen';
 
   @override
-  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
-}
-
-class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            CustomButton(
-                onTap: () {
-                  Navigator.pushNamed(context, EmailPasswordSignup().routeName);
-                },
-                text: 'Email/Password Sign Up',
-                textStyles: TextStyle(color: Colors.white)),
-            CustomButton(
-              onTap: () {
-                Navigator.pushNamed(context, EmailPasswordLogin().routeName);
-              },
-              text: 'Email/Password Login',
-              textStyles: TextStyle(color: Colors.white),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                CustomButton(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, EmailPasswordSignup().routeName);
+                  },
+                  text: 'Sign Up with Email/Password',
+                  buttonColor: theme.primaryColor,
+                  textStyles: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20.0),
+                CustomButton(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, EmailPasswordLogin().routeName);
+                  },
+                  text: 'Login with Email/Password',
+                  buttonColor: theme.primaryColor,
+                  textStyles: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20.0),
+                CustomButton(
+                  onTap: () {
+                    context
+                        .read<FirebaseAuthMethods>()
+                        .signInAnonymously(context);
+                  },
+                  text: 'Continue as Guest',
+                  buttonColor: Colors.grey[400]!,
+                  textStyles: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
-            CustomButton(
-              onTap: () {
-                context.read<FirebaseAuthMethods>().signInAnonymously(context);
-              },
-              text: 'Anonymous Sign In',
-              textStyles: TextStyle(color: Colors.white),
-            ),
-          ],
+          ),
         ),
       ),
     );

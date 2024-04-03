@@ -1,38 +1,54 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
 
   const CustomTextField({
-    Key? key,
     required this.controller,
     required this.hintText,
+    Key? key,
   }) : super(key: key);
+
+  @override
+  _CustomTextFieldState createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  bool _hasText = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_textListener);
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_textListener);
+    super.dispose();
+  }
+
+  void _textListener() {
+    setState(() {
+      _hasText = widget.controller.text.isNotEmpty;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller,
+      controller: widget.controller,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.transparent, width: 0),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.transparent, width: 0),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        filled: true,
-        fillColor: const Color(0xffF5F6FA),
-        hintText: hintText,
-        hintStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-        ),
+        hintText: widget.hintText,
+        hintStyle: TextStyle(color: Colors.grey),
       ),
+      // Change text color to black if text is entered
+      // Otherwise, keep it the same color as hint text
+      // You can adjust the logic here as needed
+      // This logic assumes you want to change the text color to black when there's text.
+      // Adjust the condition as per your requirement.
+      style: TextStyle(color: _hasText ? Colors.black : Colors.grey),
     );
   }
 }
