@@ -62,6 +62,29 @@ class EstimatePage extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(
+                    height:
+                        20), // Add some spacing between the table and buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _circleButton(
+                      color: Colors.green,
+                      symbol: Icons.add,
+                      onPressed: () {
+                        // Add your logic for plus button here
+                      },
+                    ),
+                    SizedBox(width: 20), // Add some spacing between buttons
+                    _circleButton(
+                      color: Colors.red,
+                      symbol: Icons.remove,
+                      onPressed: () {
+                        // Add your logic for minus button here
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -119,6 +142,33 @@ class EstimatePage extends StatelessWidget {
                 ? Color(Colors.white.value)
                 : Color(Colors.black.value),
             fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Define CircleButton widget here
+  Widget _circleButton({
+    required Color color,
+    required IconData symbol,
+    required VoidCallback onPressed,
+  }) {
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+              color: color, width: 4), // Increase border width for bold circle
+        ),
+        child: Center(
+          child: Icon(
+            symbol,
+            color: color,
+            size: 24, // Increase size of the icon to make it appear bolder
           ),
         ),
       ),

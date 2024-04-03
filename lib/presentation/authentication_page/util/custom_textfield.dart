@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: TextStyle(color: Colors.black),
       controller: controller,
       decoration: InputDecoration(
         border: OutlineInputBorder(
@@ -32,6 +33,7 @@ class CustomTextField extends StatelessWidget {
           fontSize: 14,
           fontWeight: FontWeight.w400,
         ),
+        // style: TextStyle(color: _hasText ? Colors.black : Colors.grey),
       ),
     );
   }

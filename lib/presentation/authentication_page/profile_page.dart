@@ -10,7 +10,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final AuthServices _auth = AuthServices();
-  
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
@@ -18,7 +18,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     final user = FirebaseAuth.instance.currentUser;
-    print(user);
     _nameController.text = user?.displayName ?? "";
     _emailController.text = user?.email ?? "";
   }
@@ -27,7 +26,15 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text(
+          'Profile',
+          style: TextStyle(
+            color: Colors.white, // Set text color to white
+            fontWeight: FontWeight.bold, // Set text to bold
+          ),
+        ),
+        centerTitle: true, // Center align the app bar title
+        backgroundColor: Colors.orange[700], // Set the app bar color
       ),
       body: Center(
         child: Padding(
@@ -40,12 +47,20 @@ class _ProfilePageState extends State<ProfilePage> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Welcome, ${snapshot.data!.displayName ?? 'User'}!', style: TextStyle(color: Colors.black),),
+                      Text(
+                        'Welcome, ${snapshot.data!.displayName ?? 'User'}!',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       SizedBox(height: 20),
                       TextField(
                         controller: _nameController,
                         decoration: InputDecoration(
                           labelText: 'Name',
+                          border: OutlineInputBorder(),
                         ),
                       ),
                       SizedBox(height: 10),
@@ -53,6 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         controller: _emailController,
                         decoration: InputDecoration(
                           labelText: 'Email',
+                          border: OutlineInputBorder(),
                         ),
                       ),
                       SizedBox(height: 20),
@@ -61,26 +77,48 @@ class _ProfilePageState extends State<ProfilePage> {
                           // Update email
                           if (_emailController.text.isNotEmpty) {
                             try {
-                              await snapshot.data!.updateEmail(_emailController.text);
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Email updated successfully')));
+                              await snapshot.data!
+                                  .updateEmail(_emailController.text);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text('Email updated successfully')));
                             } catch (error) {
                               print(error.toString());
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to update email')));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text('Failed to update email')));
                             }
                           }
 
                           // Update display name
                           if (_nameController.text.isNotEmpty) {
                             try {
-                              await snapshot.data!.updateDisplayName(_nameController.text);
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Name updated successfully')));
+                              await snapshot.data!
+                                  .updateDisplayName(_nameController.text);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text('Name updated successfully')));
                             } catch (error) {
                               print(error.toString());
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to update name')));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text('Failed to update name')));
                             }
                           }
                         },
-                        child: Text('Update', style: TextStyle(color: Colors.white),),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xFFCC5602), // Set button color
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'Update',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       SizedBox(height: 20),
                       ElevatedButton(
@@ -88,7 +126,17 @@ class _ProfilePageState extends State<ProfilePage> {
                           await _auth.logout();
                           Navigator.pushNamed(context, AppRoutes.initialRoute);
                         },
-                        child: Text('Logout', style: TextStyle(color: Colors.white),),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xFFCC5602), // Set button color
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   );

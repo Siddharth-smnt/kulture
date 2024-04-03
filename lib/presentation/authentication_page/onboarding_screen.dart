@@ -16,28 +16,64 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            ElevatedButton(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, SignupScreen().routeName);
                 },
-                child: Text('Email/Password Sign Up', style: TextStyle(color: Colors.white),),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange[700],
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, LoginScreen().routeName);
-              },
-              child: Text('Email/Password Login', style: TextStyle(color: Colors.white)),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                AuthServices _auth = AuthServices();
-                await _auth.signInAnon();
-              },
-              child: Text('Anonymous Sign In', style: TextStyle(color: Colors.white)),
-            ),
-          ],
+                child: Text(
+                  'Sign Up with Email/Password',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, LoginScreen().routeName);
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange[700],
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  'Login with Email/Password',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () async {
+                  AuthServices _auth = AuthServices();
+                  await _auth.signInAnon();
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.orange[700],
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  'Sign In Anonymously',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
