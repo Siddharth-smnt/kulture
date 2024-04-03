@@ -22,7 +22,7 @@ class AuthServices {
   }
 
   // signup with email
-  Future registerWithEmailAndPassword(String email, String password, String name) async {
+  Future signUp(String email, String password, String name) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password).then((userDoc) async {
         await userDoc.user?.updateDisplayName(name);
@@ -39,7 +39,7 @@ class AuthServices {
   }
 
   // login with email
-  Future signInWithEmailAndPassword(String email, String password) async {
+  Future login(String email, String password) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       User? user = result.user;
@@ -51,7 +51,7 @@ class AuthServices {
   }
 
   // Logout
-  Future signOut() async {
+  Future logout() async {
     try {
       return await _auth.signOut();
     } catch (error) {

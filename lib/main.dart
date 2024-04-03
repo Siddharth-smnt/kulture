@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mandar_purushottam_s_application1/presentation/authentication_page/onboarding_screen.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import 'core/app_export.dart';
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -56,10 +58,25 @@ class MyApp extends StatelessWidget {
               ),
             ],
             initialRoute: AppRoutes.initialRoute,
+            home: const AuthWrapper(),
             routes: AppRoutes.routes,
           );
         },
       ),
     );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    AuthServices().user.listen((user) {
+      if (user != null) {
+      Navigator.pushNamed(context, AppRoutes.kitchenContainerScreen);
+    }
+    });
+    return OnBoardingScreen();
   }
 }

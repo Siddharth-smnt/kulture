@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mandar_purushottam_s_application1/presentation/authentication_page/login_screen.dart';
+import 'package:mandar_purushottam_s_application1/presentation/authentication_page/onboarding_screen.dart';
+import 'package:mandar_purushottam_s_application1/presentation/authentication_page/profile_page.dart';
+import 'package:mandar_purushottam_s_application1/presentation/authentication_page/signup_screen.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_container_screen/kitchen_container_screen.dart';
 import 'package:mandar_purushottam_s_application1/presentation/estimate_one_screen/estimate_one_screen.dart';
 import 'package:mandar_purushottam_s_application1/presentation/app_navigation_screen/app_navigation_screen.dart';
@@ -12,6 +16,8 @@ class AppRoutes {
 
   static const String sabudanaKhichdiScreen = '/sabudana_khichdi_screen';
 
+  static const String profilePage = '/profile_page';
+
   static const String plannerPage = '/planner_page';
 
   static const String estimatePage = '/estimate_page';
@@ -22,10 +28,20 @@ class AppRoutes {
 
   static const String initialRoute = '/initialRoute';
 
+  static const String signupScreen = '/signup_screen';
+
+  static const String loginScreen = '/login_screen';
+
+  static const String onboardingScreen = '/onboarding_screen';
+
   static Map<String, WidgetBuilder> get routes => {
         kitchenContainerScreen: KitchenContainerScreen.builder,
         estimateOneScreen: EstimateOneScreen.builder,
         appNavigationScreen: AppNavigationScreen.builder,
-        initialRoute: KitchenContainerScreen.builder
+        initialRoute: (context) => OnBoardingScreen(),
+        signupScreen: (context) => SignupScreen(),
+        loginScreen: (context) => LoginScreen(),
+        profilePage: (context) => ProfilePage(),
+        onboardingScreen: (context) => OnBoardingScreen(),
       };
 }
