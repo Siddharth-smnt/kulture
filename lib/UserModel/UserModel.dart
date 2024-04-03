@@ -6,7 +6,7 @@ class UserModel {
   String name;
   InventoryModel? inventory;
   RecipeModel? recipes;
-  List<IngredientModel> toBuyItems;
+  List<IngredientModel>? toBuyItems;
 
   UserModel({
     required this.uid,
