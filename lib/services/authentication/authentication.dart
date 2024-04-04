@@ -7,7 +7,9 @@ class AuthServices {
   AuthServices();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Stream<User?> get user => _auth.authStateChanges();
+  User? get user => _auth.currentUser;
+
+  Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   // sign in anon
   Future<User?> signInAnon() async {
@@ -46,17 +48,16 @@ class AuthServices {
       return user;
     } catch (error) {
       print(error.toString());
-      return null;
+      return error.toString();
     } 
   }
 
   // Logout
   Future logout() async {
     try {
-      return await _auth.signOut();
+      await _auth.signOut();
     } catch (error) {
-      print(error.toString());
-      return null;
+      print("Logout Error: ${error.toString()}");
     }
   }
 

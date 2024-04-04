@@ -14,11 +14,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void loginUser() async {
-    AuthServices _auth = AuthServices();
-    await _auth.login(emailController.text, passwordController.text);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +51,18 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 40),
             ElevatedButton(
-              onPressed: loginUser,
+              onPressed: () async {
+                AuthServices _auth = AuthServices();
+                final result = await _auth.login(
+                    emailController.text, passwordController.text);
+                if (result.toString().contains("invalid-credential")) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Wrong email/password"),
+                    ),
+                  );
+                }
+              },
               style: ElevatedButton.styleFrom(
                 primary: Color(0xFFCC5602),
                 textStyle: const TextStyle(color: Colors.white),
