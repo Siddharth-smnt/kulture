@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/EstimateModel.dart';
+import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
+import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/presentation/estimate_page/bloc/estimate_bloc.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_title.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
 
@@ -62,27 +66,6 @@ class EstimatePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                    height:
-                        20), // Add some spacing between the table and buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _circleButton(
-                      color: Colors.green,
-                      symbol: Icons.add,
-                        id: "toaddId",
-                        add: true
-                    ),
-                    SizedBox(width: 20), // Add some spacing between buttons
-                    _circleButton(
-                      color: Colors.red,
-                      symbol: Icons.remove,
-                        id: "toremoveid",
-                        add: false
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
@@ -95,21 +78,22 @@ class EstimatePage extends StatelessWidget {
     List<TableRow> rows = [];
     if (state != null) {
       for (var item in state) {
-        print(item.recipeId);
         rows.add(
           _buildTableRow(
             item.recipeName!,
-            item.people.toString(),
+            item.peopleCount.toString(),
             _circleButton(
               color: Colors.green,
               symbol: Icons.add,
               id: item.recipeId,
+              peopleCount: item.peopleCount,
               add: true,
             ),
             _circleButton(
               color: Colors.red,
               symbol: Icons.remove,
               id: item.recipeId,
+              peopleCount: item.peopleCount,
               add: false,
             ),
           ),
@@ -174,13 +158,14 @@ class EstimatePage extends StatelessWidget {
     required IconData symbol,
     required String? id,
     required bool add,
+    required int? peopleCount,
   }) {
     return InkWell(
       onTap: () async {
         if (add) {
-          await _addPerson(id);
+          await _addPerson(id, peopleCount);
         } else {
-          await _removePerson(id);
+          await _removePerson(id, peopleCount);
         }
       },
       child: Container(
@@ -264,10 +249,57 @@ List<Widget> _headerCells() {
   ];
 }
 
-Future<void> _addPerson(String? id) async {
-  print("Add to estimate: $id");
+Future<void> _addPerson(String? recipeId, int? peopleCount) async {
+  // fetch recipe ingredients
+  DocumentSnapshot recipeSnapshot = await FirebaseFirestore.instance
+      .collection("User")
+      .doc(AuthServices().user?.uid)
+      .collection('Recipes')
+      .doc(recipeId)
+      .get();
+
+  Map<String, dynamic> data = recipeSnapshot.data() as Map<String, dynamic>;
+  List<IngredientModel> recipeItems = RecipeModel.fromJson(data).ingredients;
+
+  // fetch kitchen items
+  QuerySnapshot inventorySnapshot = await FirebaseFirestore.instance
+      .collection("User")
+      .doc(AuthServices().user?.uid)
+      .collection('Inventory')
+      .get();
+  List<InventoryModel> kitchenDocs = inventorySnapshot.docs
+      .map((doc) => InventoryModel.fromJson(doc.data() as Map<String, dynamic>))
+      .toList();
+  Map<String, int> availableIngredients = {};
+  for (var item in kitchenDocs) {
+    availableIngredients[item.itemName.toLowerCase()] = item.quantity;
+  }
+
+  // generate items to buy list
+  List<IngredientModel> itemsToBuy = [];
+  int dishesToAdd = peopleCount! + 1;
+
+  for (var item in recipeItems) {
+    if (availableIngredients.containsKey(item.name.toLowerCase())) {
+      int possibleDishes =
+          availableIngredients[item.name.toLowerCase()]! ~/ item.quantity;
+      if (possibleDishes < dishesToAdd) {
+        int quantityNeeded = (dishesToAdd - possibleDishes) * item.quantity;
+        itemsToBuy.add(IngredientModel(
+            name: item.name, quantity: quantityNeeded, unit: item.unit));
+      }
+    } else {
+      itemsToBuy.add(item);
+    }
+  }
+  // Update kitchenItems with the increased quantities and print the list of ingredients to buy
+  print("Increased count of dishes is $dishesToAdd");
+  print("Ingredients to buy:");
+  for (var item in itemsToBuy) {
+    print("${item.name} ${item.quantity} ${item.unit}");
+  }
 }
 
-Future<void> _removePerson(String? id) async {
+Future<void> _removePerson(String? id, int? peopleCount) async {
   print("Remove from estimate: $id");
 }

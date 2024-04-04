@@ -67,10 +67,11 @@ class UserModel {
         {
           recipeId
           recipeName
-          people
+          noOfDishes
+          peopleCount
+          notAvailable = [{itemName, quantity, unit}]
         }
       ]
-      tobuyitems = [{itemName, quantity, unit}]
     }
   ]
 

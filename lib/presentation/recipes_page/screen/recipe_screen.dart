@@ -214,12 +214,14 @@ class RecipeScreen extends StatelessWidget {
   }
 
   void _addToEstimate(BuildContext context) async {
+    int peopleCount = await countPeople(recipe.ingredients);
     EstimateModel model = EstimateModel(
       recipeId: recipe.id,
       recipeName: recipe.recipeName,
-      people: await countPeople(recipe.ingredients),
+      peopleCount: peopleCount,
+      noOfDishes: peopleCount,
     );
-    print("Estimated People Count: ${model.people}");
+    print("Estimated People Count: ${model.peopleCount}");
     await _firebaseFirestore
         .collection("User")
         .doc(_auth.user?.uid)
