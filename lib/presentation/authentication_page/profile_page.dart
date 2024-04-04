@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
+import 'package:mandar_purushottam_s_application1/presentation/authentication_page/onboarding_screen.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -8,6 +9,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
   final AuthServices _auth = AuthServices();
 
   final TextEditingController _nameController = TextEditingController();
@@ -78,7 +81,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                
                 child: Text(
                   'Update',
                   style: TextStyle(color: Colors.white),
@@ -88,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ElevatedButton(
                 onPressed: () async {
                   await _auth.logout();
-                  Navigator.popAndPushNamed(
+                  Navigator.pushReplacementNamed(
                       context, AppRoutes.onboardingScreen);
                   // Navigator.pushReplacementNamed(
                   //     context, AppRoutes.onboardingScreen);

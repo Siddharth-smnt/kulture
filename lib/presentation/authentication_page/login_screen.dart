@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/presentation/authentication_page/util/custom_textfield.dart';
+import 'package:mandar_purushottam_s_application1/routes/app_routes.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -55,6 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 AuthServices _auth = AuthServices();
                 final result = await _auth.login(
                     emailController.text, passwordController.text);
+                Navigator.pushReplacementNamed(
+                    context, AppRoutes.kitchenContainerScreen);
                 if (result.toString().contains("invalid-credential")) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

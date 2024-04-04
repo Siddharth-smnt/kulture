@@ -293,7 +293,7 @@ Future<void> _addPerson(String? recipeId, int? peopleCount) async {
     }
   }
   // Update kitchenItems with the increased quantities and print the list of ingredients to buy
-  print("Increased count of dishes is $dishesToAdd");
+  print("Increased count of dishes is $peopleCount");
   print("Ingredients to buy:");
   for (var item in itemsToBuy) {
     print("${item.name} ${item.quantity} ${item.unit}");

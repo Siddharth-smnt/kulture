@@ -74,9 +74,8 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthServices().authStateChanges.listen((user) {
       if (user != null) {
-        Navigator.pushReplacementNamed(
-            context, AppRoutes.kitchenContainerScreen);
-    }
+        Navigator.pushNamed(context, AppRoutes.kitchenContainerScreen);
+      }
     });
     return OnBoardingScreen();
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/presentation/authentication_page/util/custom_textfield.dart';
+import 'package:mandar_purushottam_s_application1/routes/app_routes.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _SignupScreenState extends State<SignupScreen> {
     AuthServices _auth = AuthServices();
     await _auth.signUp(
         emailController.text, passwordController.text, nameController.text);
+    Navigator.pushReplacementNamed(context, AppRoutes.kitchenContainerScreen);
   }
 
   @override
