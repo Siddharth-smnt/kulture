@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/edit_stock.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 
 class InventoryItemWidget extends StatelessWidget {
   final InventoryModel inventoryItemModelObj;
-  final String docId; // Define docId as a member variable
+  final String docId;
+  final AuthServices _auth = AuthServices();
 
   InventoryItemWidget(
     this.inventoryItemModelObj, {
     Key? key,
-    required this.docId, // Receive docId as a required parameter
+    required this.docId,
   }) : super(
           key: key,
         );
@@ -60,7 +62,7 @@ class InventoryItemWidget extends StatelessWidget {
                     height: 26.adaptSize,
                     width: 26.adaptSize,
                     onTap: () {
-                      decreaseItemCount(docId); // Pass docId to the method
+                      decreaseItemCount(docId);
                     },
                   ),
                   Text(
@@ -73,7 +75,7 @@ class InventoryItemWidget extends StatelessWidget {
                     height: 26.adaptSize,
                     width: 26.adaptSize,
                     onTap: () {
-                      increaseItemCount(docId); // Pass docId to the method
+                      increaseItemCount(docId);
                     },
                   ),
                 ],
@@ -90,10 +92,17 @@ class InventoryItemWidget extends StatelessWidget {
     if (newQuantity >= 0) {
       if (newQuantity == 0) {
         // Delete the document if quantity becomes zero
-        FirebaseFirestore.instance.collection('Inventory').doc(docId).delete();
+        FirebaseFirestore.instance
+            .collection("User")
+            .doc(_auth.user?.uid)
+            .collection('Inventory')
+            .doc(docId)
+            .delete();
       } else {
         // Update the quantity otherwise
         FirebaseFirestore.instance
+            .collection("User")
+            .doc(_auth.user?.uid)
             .collection('Inventory')
             .doc(docId)
             .update({'quantity': newQuantity});
@@ -103,8 +112,10 @@ class InventoryItemWidget extends StatelessWidget {
 
   void increaseItemCount(String docId) {
     FirebaseFirestore.instance
+        .collection("User")
+        .doc(_auth.user?.uid)
         .collection('Inventory')
-        .doc(docId) // Use the received document ID
+        .doc(docId)
         .update({'quantity': FieldValue.increment(1)});
   }
 }

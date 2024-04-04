@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/bloc/recipes_bloc.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/models/recipes_model.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 
 class AddRecipeScreen extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   String? _recipeDescription;
   List<IngredientModel> _recipeItems = [];
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  final AuthServices _auth = AuthServices();
   RecipesBloc recipesBloc =
       RecipesBloc(RecipesState(recipesModelObj: RecipeListModel()));
 
@@ -131,7 +133,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      _recipeItems[index].name = value;
+                      _recipeItems[index].name = value.trim();
                     });
                   },
                 ),
@@ -207,11 +209,13 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
         _recipeDescription != null &&
         _recipeItems.isNotEmpty) {
       RecipeModel recipeModel = RecipeModel(
-        recipeName: _recipeName!,
+        recipeName: _recipeName!.trim(),
         recipeDescription: _recipeDescription!,
         ingredients: _recipeItems,
       );
       await _firebaseFirestore
+          .collection("User")
+          .doc(_auth.user?.uid)
           .collection("Recipes")
           .add(recipeModel.toJson())
           .then((DocumentReference doc) async {

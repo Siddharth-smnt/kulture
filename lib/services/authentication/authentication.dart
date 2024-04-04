@@ -1,11 +1,12 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:mandar_purushottam_s_application1/UserModel/UserModel.dart";
+import "package:mandar_purushottam_s_application1/presentation/recipes_page/models/default_recipes.dart";
 
 class AuthServices {
-
   AuthServices();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   User? get user => _auth.currentUser;
 
@@ -64,7 +65,19 @@ class AuthServices {
   Future createUserDoc(User? user, String name) async {
     if(user != null) {
       UserModel myUser = UserModel(uid: user.uid, name: name);
-      await FirebaseFirestore.instance.collection("User").doc(user.uid).set(myUser.toJson());
+      await _firestore.collection("User").doc(user.uid).set(myUser.toJson());
+
+      // Add default recipes
+      defaultRecipes.forEach((recipe) async {
+        await _firestore
+            .collection("User")
+            .doc(user.uid)
+            .collection("Recipes")
+            .add(recipe.toJson())
+            .then((DocumentReference doc) async {
+          await doc.update({'id': doc.id});
+        });
+      });
     } else {
       print("User Doc not created because not authenticated");
     }

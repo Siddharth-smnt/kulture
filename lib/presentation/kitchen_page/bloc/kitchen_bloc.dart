@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import '/core/app_export.dart';
 part 'kitchen_event.dart';
 part 'kitchen_state.dart';
@@ -18,10 +19,15 @@ class KitchenBloc extends Bloc<KitchenEvent, KitchenState> {
 
   Future<List<InventoryModel>> fetchInventoryItems() async {
     List<InventoryModel> inventoryItems = [];
+    final AuthServices _auth = AuthServices();
     try {
       // Fetch recipes from Firestore
       var querySnapshot =
-          await FirebaseFirestore.instance.collection('Inventory').get();
+          await FirebaseFirestore.instance
+          .collection("User")
+          .doc(_auth.user?.uid)
+          .collection('Inventory')
+          .get();
 
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> data = doc.data();

@@ -71,17 +71,15 @@ class EstimatePage extends StatelessWidget {
                     _circleButton(
                       color: Colors.green,
                       symbol: Icons.add,
-                      onPressed: () {
-                        // Add your logic for plus button here
-                      },
+                        id: "toaddId",
+                        add: true
                     ),
                     SizedBox(width: 20), // Add some spacing between buttons
                     _circleButton(
                       color: Colors.red,
                       symbol: Icons.remove,
-                      onPressed: () {
-                        // Add your logic for minus button here
-                      },
+                        id: "toremoveid",
+                        add: false
                     ),
                   ],
                 ),
@@ -95,12 +93,27 @@ class EstimatePage extends StatelessWidget {
 
   Widget _buildTable(List<EstimateModel>? state) {
     List<TableRow> rows = [];
-    rows.add(_buildTableRow('Recipe Name', 'Person', 'Add', 'Remove',
-        isHeader: true));
     if (state != null) {
       for (var item in state) {
+        print(item.recipeId);
         rows.add(
-            _buildTableRow(item.recipeName!, item.people.toString(), '+', '-'));
+          _buildTableRow(
+            item.recipeName!,
+            item.people.toString(),
+            _circleButton(
+              color: Colors.green,
+              symbol: Icons.add,
+              id: item.recipeId,
+              add: true,
+            ),
+            _circleButton(
+              color: Colors.red,
+              symbol: Icons.remove,
+              id: item.recipeId,
+              add: false,
+            ),
+          ),
+        );
       }
     }
     return Table(
@@ -111,25 +124,29 @@ class EstimatePage extends StatelessWidget {
         3: FlexColumnWidth(1),
       },
       border: TableBorder.all(),
-      children: rows,
-    );
-  }
-
-  TableRow _buildTableRow(
-      String recipeName, String person, String increase, String decrease,
-      {bool isHeader = false}) {
-    return TableRow(
-      decoration: isHeader ? BoxDecoration(color: appTheme.orangeA700) : null,
       children: [
-        _buildTableCell(recipeName, isHeader: isHeader),
-        _buildTableCell(person, isHeader: isHeader),
-        _buildTableCell(increase, isHeader: isHeader),
-        _buildTableCell(decrease, isHeader: isHeader),
+        TableRow(
+          decoration: BoxDecoration(color: appTheme.orangeA700),
+          children: [..._headerCells()],
+        ),
+        ...rows
       ],
     );
   }
 
-  Widget _buildTableCell(String text, {bool isHeader = false}) {
+  TableRow _buildTableRow(
+      String recipeName, String person, Widget increase, Widget decrease) {
+    return TableRow(
+      children: [
+        _buildTableCellText(recipeName),
+        _buildTableCellText(person),
+        _buildTableCell(increase),
+        _buildTableCell(decrease),
+      ],
+    );
+  }
+
+  Widget _buildTableCellText(String text) {
     return TableCell(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -138,24 +155,34 @@ class EstimatePage extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
-            color: isHeader
-                ? Color(Colors.white.value)
-                : Color(Colors.black.value),
-            fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
+            color: Color(Colors.black.value),
+            fontWeight: FontWeight.normal,
           ),
         ),
       ),
     );
   }
 
-  // Define CircleButton widget here
+  Widget _buildTableCell(Widget widget) {
+    return TableCell(
+      child: Padding(padding: const EdgeInsets.all(8.0), child: widget),
+    );
+  }
+
   Widget _circleButton({
     required Color color,
     required IconData symbol,
-    required VoidCallback onPressed,
+    required String? id,
+    required bool add,
   }) {
     return InkWell(
-      onTap: onPressed,
+      onTap: () async {
+        if (add) {
+          await _addPerson(id);
+        } else {
+          await _removePerson(id);
+        }
+      },
       child: Container(
         width: 40,
         height: 40,
@@ -174,4 +201,73 @@ class EstimatePage extends StatelessWidget {
       ),
     );
   }
+}
+
+List<Widget> _headerCells() {
+  return [
+    TableCell(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          "Recipe Name",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(Colors.white.value),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ),
+    TableCell(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          "People",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(Colors.white.value),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ),
+    TableCell(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          "Add",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(Colors.white.value),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ),
+    TableCell(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          "Remove",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(Colors.white.value),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ),
+  ];
+}
+
+Future<void> _addPerson(String? id) async {
+  print("Add to estimate: $id");
+}
+
+Future<void> _removePerson(String? id) async {
+  print("Remove from estimate: $id");
 }

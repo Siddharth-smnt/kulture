@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 
 class EditRecipeScreen extends StatefulWidget {
   EditRecipeScreen({required this.recipeObj});
@@ -14,13 +15,14 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
   String? _recipeDescription;
   List<IngredientModel> _recipeItems = [];
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  final AuthServices _auth = AuthServices();
 
   @override
   void initState() {
     super.initState();
     _recipeName = widget.recipeObj.recipeName;
     _recipeDescription = widget.recipeObj.recipeDescription;
-    _recipeItems = widget.recipeObj.ingredients ?? [];
+    _recipeItems = widget.recipeObj.ingredients;
   }
 
   @override
@@ -137,7 +139,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      _recipeItems[index].name = value;
+                      _recipeItems[index].name = value.trim();
                     });
                   },
                 ),
@@ -213,13 +215,15 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
         _recipeDescription != null &&
         _recipeItems.isNotEmpty) {
       RecipeModel recipeModel = RecipeModel(
-        recipeName: _recipeName!,
+        recipeName: _recipeName!.trim(),
         recipeDescription: _recipeDescription!,
         ingredients: _recipeItems,
       );
       await _firebaseFirestore
+          .collection("User")
+          .doc(_auth.user?.uid)
           .collection("Recipes")
-          .doc()
+          .doc(widget.recipeObj.id)
           .set(recipeModel.toJson());
       Navigator.pop(context);
     } else {

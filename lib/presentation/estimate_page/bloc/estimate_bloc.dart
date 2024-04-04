@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/EstimateModel.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import '/core/app_export.dart';
 part 'estimate_event.dart';
 part 'estimate_state.dart';
@@ -22,9 +23,14 @@ class EstimateBloc extends Bloc<EstimateEvent, EstimateState> {
 
   Future<List<EstimateModel>> fetchEstimateList() async {
     List<EstimateModel> list = [];
+    final AuthServices _auth = AuthServices();
     try {
       var querySnapshot =
-          await FirebaseFirestore.instance.collection('Estimate').get();
+          await FirebaseFirestore.instance
+          .collection("User")
+          .doc(_auth.user?.uid)
+          .collection('Estimate')
+          .get();
 
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> data = doc.data();

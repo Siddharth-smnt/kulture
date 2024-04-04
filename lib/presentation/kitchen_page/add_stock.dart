@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 
 class AddItemScreen extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   int? _quantity;
   String? _selectedUnit;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  final AuthServices _auth = AuthServices();
 
   @override
   Widget build(BuildContext context) {
@@ -144,11 +146,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         _selectedUnit != null) {
                       InventoryModel data = InventoryModel(
                         category: _selectedCriteria!,
-                        itemName: _itemName!,
+                        itemName: _itemName!.trim(),
                         quantity: _quantity!,
                         unit: _selectedUnit!,
                       );
                       await _firebaseFirestore
+                          .collection("User")
+                          .doc(_auth.user?.uid)
                           .collection("Inventory")
                           .add(data.toJson())
                           .then((DocumentReference doc) async {

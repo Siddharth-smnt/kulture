@@ -5,6 +5,7 @@ import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart'
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/screen/edit_recipe_screen.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image_2.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
 
@@ -13,6 +14,7 @@ class RecipeScreen extends StatelessWidget {
 
   final RecipeModel recipe;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  final AuthServices _auth = AuthServices();
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +159,10 @@ class RecipeScreen extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Color(0xFFCC5602),
                                 ),
-                                child: Text('Add to Estimate'),
+                                child: Text(
+                                  'Add to Estimate',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ],
                           ),
@@ -178,17 +183,23 @@ class RecipeScreen extends StatelessWidget {
     int people = -1;
 
     QuerySnapshot inventorySnapshot =
-        await FirebaseFirestore.instance.collection('Inventory').get();
+        await _firebaseFirestore
+        .collection("User")
+        .doc(_auth.user?.uid)
+        .collection('Inventory')
+        .get();
     List<InventoryModel> kitchenDocs = inventorySnapshot.docs
         .map((doc) =>
             InventoryModel.fromJson(doc.data() as Map<String, dynamic>))
         .toList();
     Map<String, int> availableIngredients = {};
     for (var item in kitchenDocs) {
+      print("kitchen items: ${item.itemName.toLowerCase()} = ${item.quantity}");
       availableIngredients[item.itemName.toLowerCase()] = item.quantity;
     }
 
     for (var recipe in recipeItems) {
+      print("Recipe items: ${recipe.name.toLowerCase()} = ${recipe.quantity}");
       if (availableIngredients.containsKey(recipe.name.toLowerCase())) {
         int possibleDishes =
             availableIngredients[recipe.name.toLowerCase()]! ~/ recipe.quantity;
@@ -208,8 +219,10 @@ class RecipeScreen extends StatelessWidget {
       recipeName: recipe.recipeName,
       people: await countPeople(recipe.ingredients),
     );
-    print(model.people);
+    print("Estimated People Count: ${model.people}");
     await _firebaseFirestore
+        .collection("User")
+        .doc(_auth.user?.uid)
         .collection("Estimate")
         .doc(model.recipeId)
         .set(model.toJson());

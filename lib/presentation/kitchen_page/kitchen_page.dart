@@ -5,13 +5,14 @@ import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/add_
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/bloc/kitchen_bloc.dart';
 import 'package:mandar_purushottam_s_application1/presentation/kitchen_page/widgets/Inventory_Item_Widget.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image_1.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
 import 'package:mandar_purushottam_s_application1/widgets/custom_floating_button.dart';
 
 class KitchenPage extends StatelessWidget {
-  const KitchenPage({Key? key}) : super(key: key);
+  KitchenPage({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
     return BlocProvider<KitchenBloc>(
@@ -21,6 +22,8 @@ class KitchenPage extends StatelessWidget {
       child: KitchenPage(),
     );
   }
+
+  final AuthServices _auth = AuthServices();
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +61,8 @@ class KitchenPage extends StatelessWidget {
                 SizedBox(height: 22.v),
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
+                      .collection("User")
+                      .doc(_auth.user?.uid)
                       .collection('Inventory')
                       .where('category', isEqualTo: 'Condiments')
                       .snapshots(),
@@ -103,32 +108,6 @@ class KitchenPage extends StatelessWidget {
                     }
                   },
                 ),
-                //  BlocBuilder<KitchenBloc, KitchenState>(
-                //     builder: (context, state) {
-                //   final itemList = state.kitchenList;
-                //   if (itemList.isEmpty) {
-                //     return Center(
-                //       child: Text("No Items Available"),
-                //     );
-                //   }
-                //   final condimentsList = itemList
-                //       .where((item) => item.category == "Condiments")
-                //       .toList();
-                //   return GridView.builder(
-                //       shrinkWrap: true,
-                //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //         mainAxisExtent: 153.v,
-                //         crossAxisCount: 2,
-                //         mainAxisSpacing: 32.h,
-                //         crossAxisSpacing: 32.h,
-                //       ),
-                //       physics: NeverScrollableScrollPhysics(),
-                //       itemCount: condimentsList.length,
-                //       itemBuilder: (context, index) {
-                //         return InventoryItemWidget(condimentsList[index],
-                //             docId: condimentsList[index].id!);
-                //       });
-                // }),
                 SizedBox(height: 37.v),
                 Text(
                   "lbl_vegetables".tr,
@@ -137,6 +116,8 @@ class KitchenPage extends StatelessWidget {
                 SizedBox(height: 22.v),
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
+                      .collection("User")
+                      .doc(_auth.user?.uid)
                       .collection('Inventory')
                       .where('category', isEqualTo: 'Vegetables')
                       .snapshots(),

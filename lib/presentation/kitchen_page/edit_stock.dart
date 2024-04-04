@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
+import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 
 class EditItemScreen extends StatefulWidget {
   EditItemScreen(this.itemObj, this.docId, {Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   int? _quantity;
   String? _selectedUnit;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  final AuthServices _auth = AuthServices();
 
   TextEditingController _itemNameController = TextEditingController();
   TextEditingController _quantityController = TextEditingController();
@@ -168,11 +170,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         _selectedUnit != null) {
                       InventoryModel data = InventoryModel(
                         category: _selectedCriteria!,
-                        itemName: _itemName!,
+                        itemName: _itemName!.trim(),
                         quantity: _quantity!,
                         unit: _selectedUnit!,
                       );
                       await _firebaseFirestore
+                          .collection("User")
+                          .doc(_auth.user?.uid)
                           .collection("Inventory")
                           .doc(_docId)
                           .set(data.toJson());
