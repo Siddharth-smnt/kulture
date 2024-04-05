@@ -194,12 +194,10 @@ class RecipeScreen extends StatelessWidget {
         .toList();
     Map<String, int> availableIngredients = {};
     for (var item in kitchenDocs) {
-      print("kitchen items: ${item.itemName.toLowerCase()} = ${item.quantity}");
       availableIngredients[item.itemName.toLowerCase()] = item.quantity;
     }
 
     for (var recipe in recipeItems) {
-      print("Recipe items: ${recipe.name.toLowerCase()} = ${recipe.quantity}");
       if (availableIngredients.containsKey(recipe.name.toLowerCase())) {
         int possibleDishes =
             availableIngredients[recipe.name.toLowerCase()]! ~/ recipe.quantity;
@@ -219,7 +217,7 @@ class RecipeScreen extends StatelessWidget {
       recipeId: recipe.id,
       recipeName: recipe.recipeName,
       peopleCount: peopleCount,
-      noOfDishes: peopleCount,
+      // noOfDishes: peopleCount,
     );
     print("Estimated People Count: ${model.peopleCount}");
     await _firebaseFirestore

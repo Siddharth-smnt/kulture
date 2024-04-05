@@ -4,13 +4,11 @@ class EstimateModel {
   String? id;
   String? recipeId;
   String? recipeName;
-  int? noOfDishes;
   int? peopleCount;
   List<IngredientModel>? notAvailableItems;
   EstimateModel(
       {this.recipeName,
       this.peopleCount,
-      this.noOfDishes,
       this.id,
       this.recipeId,
       this.notAvailableItems});
@@ -28,7 +26,6 @@ class EstimateModel {
       recipeId: json['recipeId'],
       recipeName: json['recipeName'],
       peopleCount: json['peopleCount'],
-      noOfDishes: json['noOfDishes'],
       notAvailableItems: ingredients,
     );
   }
@@ -40,7 +37,6 @@ class EstimateModel {
     data['recipeId'] = this.recipeId;
     data['recipeName'] = this.recipeName;
     data['peopleCount'] = this.peopleCount;
-    data['noOfDishes'] = this.noOfDishes;
     data['notAvailableItems'] = this
         .notAvailableItems
         ?.map((ingredient) => ingredient.toJson())
