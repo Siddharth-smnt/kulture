@@ -108,6 +108,13 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                   child: Text('Cancel'),
                 ),
                 ElevatedButton(
+                  onPressed: _deleteRecipe,
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFCC5602),
+                  ),
+                  child: Text('Delete Recipe'),
+                ),
+                ElevatedButton(
                   onPressed: _submitRecipe,
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFFCC5602),
@@ -229,5 +236,15 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
     } else {
       print("Please fill all fields");
     }
+  }
+
+  void _deleteRecipe() async {
+    await _firebaseFirestore
+        .collection("User")
+        .doc(_auth.user?.uid)
+        .collection("Recipes")
+        .doc(widget.recipeObj.id)
+        .delete();
+    Navigator.pop(context);
   }
 }
