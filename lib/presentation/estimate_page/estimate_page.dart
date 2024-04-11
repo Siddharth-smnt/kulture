@@ -4,6 +4,8 @@ import 'package:mandar_purushottam_s_application1/UserModel/EstimateModel.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
+import 'package:mandar_purushottam_s_application1/pdf/pdf_api.dart';
+import 'package:mandar_purushottam_s_application1/pdf/pdf_invoice_api.dart';
 import 'package:mandar_purushottam_s_application1/presentation/estimate_page/bloc/estimate_bloc.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_title.dart';
@@ -21,6 +23,7 @@ class EstimatePage extends StatelessWidget {
   }
 
   final AuthServices _auth = AuthServices();
+  List<IngredientModel> allNotAvailableItemList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +102,6 @@ class EstimatePage extends StatelessWidget {
                                   doc.data() as Map<String, dynamic>;
                               return EstimateModel.fromJson(data);
                             }).toList();
-                            List<IngredientModel> allNotAvailableItemList = [];
                             for (var estimate in toBuyList) {
                               allNotAvailableItemList.addAll(
                                   estimate.notAvailableItems
@@ -138,8 +140,11 @@ class EstimatePage extends StatelessWidget {
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () {
-                              print("Share button clicked");
+                            onPressed: () async {
+                              final pdfFile = await PdfInvoiceApi.generate(
+                                  allNotAvailableItemList);
+                              PdfApi.openFile(pdfFile);
+                              // print("Share button clicked");
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFFCC5602),
@@ -265,21 +270,19 @@ class EstimatePage extends StatelessWidget {
             item.recipeName!,
             item.peopleCount.toString(),
             _circleButton(
-              color: Colors.green,
-              symbol: Icons.add,
-              id: item.recipeId,
-              peopleCount: item.peopleCount,
-              add: true,
-                context: context
-            ),
+                color: Colors.green,
+                symbol: Icons.add,
+                id: item.recipeId,
+                peopleCount: item.peopleCount,
+                add: true,
+                context: context),
             _circleButton(
-              color: Colors.red,
-              symbol: Icons.remove,
-              id: item.recipeId,
-              peopleCount: item.peopleCount,
-              add: false,
-                context: context
-            ),
+                color: Colors.red,
+                symbol: Icons.remove,
+                id: item.recipeId,
+                peopleCount: item.peopleCount,
+                add: false,
+                context: context),
           ),
         );
       }
@@ -337,14 +340,13 @@ class EstimatePage extends StatelessWidget {
     );
   }
 
-  Widget _circleButton({
-    required Color color,
-    required IconData symbol,
-    required String? id,
-    required bool add,
-    required int? peopleCount,
-      required BuildContext context
-  }) {
+  Widget _circleButton(
+      {required Color color,
+      required IconData symbol,
+      required String? id,
+      required bool add,
+      required int? peopleCount,
+      required BuildContext context}) {
     return InkWell(
       onTap: () async {
         if (add) {
@@ -373,7 +375,6 @@ class EstimatePage extends StatelessWidget {
       ),
     );
   }
-
 
   List<Widget> _headerCells() {
     return [
