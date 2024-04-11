@@ -4,12 +4,11 @@ import 'package:mandar_purushottam_s_application1/UserModel/EstimateModel.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/InventoryModel.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
-import 'package:mandar_purushottam_s_application1/pdf/pdf_api.dart';
-import 'package:mandar_purushottam_s_application1/pdf/pdf_invoice_api.dart';
 import 'package:mandar_purushottam_s_application1/presentation/estimate_page/bloc/estimate_bloc.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_title.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
+import 'package:share_plus/share_plus.dart';
 
 class EstimatePage extends StatelessWidget {
   EstimatePage({Key? key}) : super(key: key);
@@ -141,10 +140,19 @@ class EstimatePage extends StatelessWidget {
                           ),
                           ElevatedButton(
                             onPressed: () async {
-                              final pdfFile = await PdfInvoiceApi.generate(
-                                  allNotAvailableItemList);
-                              PdfApi.openFile(pdfFile);
-                              // print("Share button clicked");
+                              List<IngredientModel>? ingredients =
+                                  allNotAvailableItemList;
+
+                              String formattedIngredients = '';
+                              if (ingredients != null) {
+                                for (var ingredient in ingredients) {
+                                  formattedIngredients +=
+                                      '${ingredient.name}: ${ingredient.quantity} ${ingredient.unit}\n';
+                                }
+                              }
+
+                              // Share the formatted ingredients text
+                              await Share.share(formattedIngredients);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFFCC5602),
