@@ -8,6 +8,7 @@ import 'package:mandar_purushottam_s_application1/presentation/estimate_page/blo
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_title.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
+import 'package:share_plus/share_plus.dart';
 
 class EstimatePage extends StatelessWidget {
   EstimatePage({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class EstimatePage extends StatelessWidget {
   }
 
   final AuthServices _auth = AuthServices();
+  List<IngredientModel> allNotAvailableItemList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,6 @@ class EstimatePage extends StatelessWidget {
                                   doc.data() as Map<String, dynamic>;
                               return EstimateModel.fromJson(data);
                             }).toList();
-                            List<IngredientModel> allNotAvailableItemList = [];
                             for (var estimate in toBuyList) {
                               allNotAvailableItemList.addAll(
                                   estimate.notAvailableItems
@@ -130,7 +131,7 @@ class EstimatePage extends StatelessWidget {
                                   context, AppRoutes.kitchenPage);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFCC5602),
+                              backgroundColor: Color(0xFFFF6B00),
                             ),
                             child: Text(
                               'Execute',
@@ -138,11 +139,22 @@ class EstimatePage extends StatelessWidget {
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () {
-                              print("Share button clicked");
+                            onPressed: () async {
+                              List<IngredientModel>? ingredients =
+                                  allNotAvailableItemList;
+
+                              String formattedIngredients = 'Items needed:\n';
+                              if (ingredients != null) {
+                                for (var ingredient in ingredients) {
+                                  formattedIngredients +=
+                                      '${ingredient.name}: ${ingredient.quantity} ${ingredient.unit}\n';
+                                }
+                              }
+
+                              await Share.share(formattedIngredients);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFCC5602),
+                              backgroundColor: Color(0xFFFF6B00),
                             ),
                             child: Text(
                               'Share',
@@ -265,21 +277,19 @@ class EstimatePage extends StatelessWidget {
             item.recipeName!,
             item.peopleCount.toString(),
             _circleButton(
-              color: Colors.green,
-              symbol: Icons.add,
-              id: item.recipeId,
-              peopleCount: item.peopleCount,
-              add: true,
-                context: context
-            ),
+                color: Colors.green,
+                symbol: Icons.add,
+                id: item.recipeId,
+                peopleCount: item.peopleCount,
+                add: true,
+                context: context),
             _circleButton(
-              color: Colors.red,
-              symbol: Icons.remove,
-              id: item.recipeId,
-              peopleCount: item.peopleCount,
-              add: false,
-                context: context
-            ),
+                color: Colors.red,
+                symbol: Icons.remove,
+                id: item.recipeId,
+                peopleCount: item.peopleCount,
+                add: false,
+                context: context),
           ),
         );
       }
@@ -337,14 +347,13 @@ class EstimatePage extends StatelessWidget {
     );
   }
 
-  Widget _circleButton({
-    required Color color,
-    required IconData symbol,
-    required String? id,
-    required bool add,
-    required int? peopleCount,
-      required BuildContext context
-  }) {
+  Widget _circleButton(
+      {required Color color,
+      required IconData symbol,
+      required String? id,
+      required bool add,
+      required int? peopleCount,
+      required BuildContext context}) {
     return InkWell(
       onTap: () async {
         if (add) {
@@ -373,7 +382,6 @@ class EstimatePage extends StatelessWidget {
       ),
     );
   }
-
 
   List<Widget> _headerCells() {
     return [

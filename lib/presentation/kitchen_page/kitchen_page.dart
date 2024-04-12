@@ -163,18 +163,77 @@ class KitchenPage extends StatelessWidget {
                     }
                   },
                 ),
+                SizedBox(height: 37.v),
+                Text(
+                  "Dairy",
+                  style: CustomTextStyles.titleMediumOrange900,
+                ),
+                SizedBox(height: 22.v),
+                StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("User")
+                      .doc(_auth.user?.uid)
+                      .collection('Inventory')
+                      .where('category', isEqualTo: 'Dairy')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (snapshot.hasData &&
+                        snapshot.data!.docs.isEmpty) {
+                      return Center(
+                          child: Text(
+                        'Nothing is available',
+                        style: TextStyle(color: Colors.black),
+                      ));
+                    } else {
+                      List<InventoryModel> dairyList =
+                          snapshot.data!.docs.map((document) {
+                        Map<String, dynamic> data =
+                            document.data() as Map<String, dynamic>;
+                        return InventoryModel.fromJson(data);
+                      }).toList();
+
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisExtent: 153.v,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 32.h,
+                          crossAxisSpacing: 32.h,
+                        ),
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: dairyList.length,
+                        itemBuilder: (context, index) {
+                          var docId = snapshot
+                              .data!.docs[index].id; // Retrieve document ID
+                          return InventoryItemWidget(
+                            dairyList[index],
+                            docId: docId,
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),
         ),
-        floatingActionButton: CustomFloatingButton(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xFFFF6B00), // Set background color to #FF6B00
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddItemScreen()),
             );
           },
-          iconPath: ImageConstant.imgPlus,
+          child: Icon(
+            Icons.add,
+            color: Colors.white, // Set icon color to white
+          ),
         ),
       ),
     );

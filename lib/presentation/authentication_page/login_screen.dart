@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFFCC5602),
+                primary: Color(0xFFFF6B00),
                 textStyle: const TextStyle(color: Colors.white),
                 minimumSize: Size(
                   MediaQuery.of(context).size.width / 2.5,

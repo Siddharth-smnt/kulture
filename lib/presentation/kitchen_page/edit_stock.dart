@@ -45,7 +45,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
         backgroundColor: Color(0xFFFF6C03),
         title: Center(
           child: Text(
-            'ADD ITEM',
+            'EDIT ITEM',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -72,6 +72,10 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 DropdownMenuItem<String>(
                   child: Text('Vegetables'),
                   value: 'Vegetables',
+                ),
+                DropdownMenuItem<String>(
+                  child: Text('Dairy'),
+                  value: 'Dairy',
                 ),
               ],
               onChanged: (String? value) {
@@ -127,12 +131,24 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     value: _selectedUnit,
                     items: [
                       DropdownMenuItem<String>(
+                        child: Text('unit'),
+                        value: 'unit',
+                      ),
+                      DropdownMenuItem<String>(
+                        child: Text('g'),
+                        value: 'g',
+                      ),
+                      DropdownMenuItem<String>(
                         child: Text('kg'),
                         value: 'kg',
                       ),
                       DropdownMenuItem<String>(
-                        child: Text('grams'),
-                        value: 'grams',
+                        child: Text('ml'),
+                        value: 'ml',
+                      ),
+                      DropdownMenuItem<String>(
+                        child: Text('ltr'),
+                        value: 'ltr',
                       ),
                     ],
                     onChanged: (String? value) {
@@ -140,7 +156,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         _selectedUnit = value;
                       });
                     },
-                    hint: Text('Select Unit'),
+                    hint: Text('Unit'),
                     dropdownColor: Colors.white,
                   ),
                 ),
@@ -155,10 +171,28 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFCC5602),
+                    primary: Color(0xFFFF6B00),
                   ),
                   child: Text(
                     'Cancel',
+                    style: TextStyle(fontSize: 12.0, color: Colors.white),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await _firebaseFirestore
+                        .collection("User")
+                        .doc(_auth.user?.uid)
+                        .collection("Inventory")
+                        .doc(_docId)
+                        .delete();
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFFF6B00),
+                  ),
+                  child: Text(
+                    'Delete',
                     style: TextStyle(fontSize: 12.0, color: Colors.white),
                   ),
                 ),
@@ -186,7 +220,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFCC5602),
+                    primary: Color(0xFFFF6B00),
                   ),
                   child: Text(
                     'Update',

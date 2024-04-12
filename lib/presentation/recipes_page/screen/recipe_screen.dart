@@ -154,7 +154,7 @@ class RecipeScreen extends StatelessWidget {
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     subtitle: Text(
-                                      ingredient.quantity.toString(),
+                                      '${ingredient.quantity.toString()} ${ingredient.unit.toString()}',
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   );
@@ -165,7 +165,7 @@ class RecipeScreen extends StatelessWidget {
                                   _addToEstimate(context);
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFFCC5602),
+                                  backgroundColor: Color(0xFFFF6B00),
                                 ),
                                 child: Text(
                                   'Add to Estimate',
@@ -190,8 +190,7 @@ class RecipeScreen extends StatelessWidget {
   Future<int> countPeople(List<IngredientModel> recipeItems) async {
     int people = -1;
 
-    QuerySnapshot inventorySnapshot =
-        await _firebaseFirestore
+    QuerySnapshot inventorySnapshot = await _firebaseFirestore
         .collection("User")
         .doc(_auth.user?.uid)
         .collection('Inventory')

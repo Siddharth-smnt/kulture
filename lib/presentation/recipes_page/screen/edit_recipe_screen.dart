@@ -34,7 +34,6 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
   TextEditingController _recipeNameController = TextEditingController();
   TextEditingController _recipeDescriptionController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -196,7 +195,10 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
               ),
               onPressed: _addIngredient,
               icon: Icon(Icons.add),
-              label: Text('Add Ingredient'),
+              label: Text(
+                'Add Ingredient',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
             SizedBox(height: 12.0),
             ListView.builder(
@@ -216,23 +218,32 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.grey,
+                    primary: Color(0xFFFF6B00),
                   ),
-                  child: Text('Cancel'),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: _deleteRecipe,
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFCC5602),
+                    primary: Color(0xFFFF6B00),
                   ),
-                  child: Text('Delete Recipe'),
+                  child: Text(
+                    'Delete Recipe',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: _submitRecipe,
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFCC5602),
+                    primary: Color(0xFFFF6B00),
                   ),
-                  child: Text('Edit Recipe'),
+                  child: Text(
+                    'Edit Recipe',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),
@@ -290,16 +301,24 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                   value: _recipeItems[index].unit,
                   items: [
                     DropdownMenuItem<String>(
-                      child: Text('Select Unit'),
-                      value: '',
+                      child: Text('unit'),
+                      value: 'unit',
+                    ),
+                    DropdownMenuItem<String>(
+                      child: Text('g'),
+                      value: 'g',
                     ),
                     DropdownMenuItem<String>(
                       child: Text('kg'),
                       value: 'kg',
                     ),
                     DropdownMenuItem<String>(
-                      child: Text('grams'),
-                      value: 'grams',
+                      child: Text('ml'),
+                      value: 'ml',
+                    ),
+                    DropdownMenuItem<String>(
+                      child: Text('ltr'),
+                      value: 'ltr',
                     ),
                   ],
                   onChanged: (String? value) {
@@ -307,7 +326,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                       _recipeItems[index].unit = value ?? '';
                     });
                   },
-                  hint: Text('Select Unit'),
+                  hint: Text('Unit'),
                   dropdownColor: Colors.white,
                 ),
               ),
@@ -328,7 +347,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
 
   void _addIngredient() {
     setState(() {
-      _recipeItems.add(IngredientModel(name: "", quantity: 0, unit: ""));
+      _recipeItems.add(IngredientModel(name: "", quantity: 0, unit: "unit"));
     });
   }
 
