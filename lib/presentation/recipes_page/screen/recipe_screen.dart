@@ -146,7 +146,7 @@ class RecipeScreen extends StatelessWidget {
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     subtitle: Text(
-                                      ingredient.quantity.toString(),
+                                      '${ingredient.quantity.toString()} ${ingredient.unit.toString()}',
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   );
