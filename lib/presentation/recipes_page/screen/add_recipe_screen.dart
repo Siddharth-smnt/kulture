@@ -175,24 +175,32 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                   value: _recipeItems[index].unit,
                   items: [
                     DropdownMenuItem<String>(
-                      child: Text('Select Unit'),
-                      value: '',
+                      child: Text('unit'),
+                      value: 'unit',
+                    ),
+                    DropdownMenuItem<String>(
+                      child: Text('g'),
+                      value: 'g',
                     ),
                     DropdownMenuItem<String>(
                       child: Text('kg'),
                       value: 'kg',
                     ),
                     DropdownMenuItem<String>(
-                      child: Text('grams'),
-                      value: 'grams',
+                      child: Text('ml'),
+                      value: 'ml',
+                    ),
+                    DropdownMenuItem<String>(
+                      child: Text('ltr'),
+                      value: 'ltr',
                     ),
                   ],
                   onChanged: (String? value) {
                     setState(() {
-                      _recipeItems[index].unit = value ?? '';
+                      _recipeItems[index].unit = value ?? 'unit';
                     });
                   },
-                  hint: Text('Select Unit'),
+                  hint: Text('Unit'),
                   dropdownColor: Colors.white,
                 ),
               ),
@@ -213,7 +221,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
 
   void _addIngredient() {
     setState(() {
-      _recipeItems.add(IngredientModel(name: "", quantity: 0, unit: ""));
+      _recipeItems.add(IngredientModel(name: "", quantity: 0, unit: "unit"));
     });
   }
 

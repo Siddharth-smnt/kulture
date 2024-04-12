@@ -107,8 +107,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         value: 'unit',
                       ),
                       DropdownMenuItem<String>(
-                        child: Text('grams'),
-                        value: 'grams',
+                        child: Text('g'),
+                        value: 'g',
                       ),
                       DropdownMenuItem<String>(
                         child: Text('kg'),
