@@ -131,7 +131,7 @@ class EstimatePage extends StatelessWidget {
                                   context, AppRoutes.kitchenPage);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFCC5602),
+                              backgroundColor: Color(0xFFFF6B00),
                             ),
                             child: Text(
                               'Execute',
@@ -143,7 +143,7 @@ class EstimatePage extends StatelessWidget {
                               List<IngredientModel>? ingredients =
                                   allNotAvailableItemList;
 
-                              String formattedIngredients = '';
+                              String formattedIngredients = 'Items needed:\n';
                               if (ingredients != null) {
                                 for (var ingredient in ingredients) {
                                   formattedIngredients +=
@@ -151,11 +151,10 @@ class EstimatePage extends StatelessWidget {
                                 }
                               }
 
-                              // Share the formatted ingredients text
                               await Share.share(formattedIngredients);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFCC5602),
+                              backgroundColor: Color(0xFFFF6B00),
                             ),
                             child: Text(
                               'Share',

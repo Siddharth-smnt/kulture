@@ -66,7 +66,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             TextField(
-              style: TextStyle(color: Colors.black), // Set text color to black
+              style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
                 hintText: 'Enter Item Name',
               ),
@@ -103,12 +103,24 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     value: _selectedUnit,
                     items: [
                       DropdownMenuItem<String>(
-                        child: Text('kg'),
-                        value: 'kg',
+                        child: Text('unit'),
+                        value: 'unit',
                       ),
                       DropdownMenuItem<String>(
                         child: Text('grams'),
                         value: 'grams',
+                      ),
+                      DropdownMenuItem<String>(
+                        child: Text('kg'),
+                        value: 'kg',
+                      ),
+                      DropdownMenuItem<String>(
+                        child: Text('ml'),
+                        value: 'ml',
+                      ),
+                      DropdownMenuItem<String>(
+                        child: Text('ltr'),
+                        value: 'ltr',
                       ),
                     ],
                     onChanged: (String? value) {
@@ -116,7 +128,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         _selectedUnit = value;
                       });
                     },
-                    hint: Text('Select Unit'),
+                    hint: Text('Unit'),
                     dropdownColor: Colors.white,
                   ),
                 ),
@@ -131,7 +143,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFCC5602),
+                    primary: Color(0xFFFF6B00),
                   ),
                   child: Text(
                     'Cancel',
@@ -164,7 +176,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFCC5602),
+                    primary: Color(0xFFFF6B00),
                   ),
                   child: Text(
                     'Add',

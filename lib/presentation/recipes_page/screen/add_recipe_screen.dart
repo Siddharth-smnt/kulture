@@ -77,7 +77,10 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
               ),
               onPressed: _addIngredient,
               icon: Icon(Icons.add),
-              label: Text('Add Ingredient'),
+              label: Text(
+                'Add Ingredient',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
             SizedBox(height: 12.0),
             ListView.builder(
@@ -97,16 +100,26 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.grey,
+                    primary: Color(0xFFFF6B00),
+                    textStyle: TextStyle(
+                        color: Colors.black), // Change text color here
                   ),
-                  child: Text('Cancel'),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: _submitRecipe,
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFCC5602),
+                    primary: Color(0xFFFF6B00),
+                    textStyle: TextStyle(
+                        color: Colors.black), // Change text color here
                   ),
-                  child: Text('Add Recipe'),
+                  child: Text(
+                    'Add Recipe',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),
