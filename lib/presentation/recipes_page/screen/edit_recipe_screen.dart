@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
+import 'package:mandar_purushottam_s_application1/services/storage.dart';
 
 class EditRecipeScreen extends StatefulWidget {
   EditRecipeScreen({required this.recipeObj});
@@ -11,11 +15,24 @@ class EditRecipeScreen extends StatefulWidget {
 }
 
 class _EditRecipeScreenState extends State<EditRecipeScreen> {
+  String? _id;
   String? _recipeName;
   String? _recipeDescription;
+  String? _imageUrl;
   List<IngredientModel> _recipeItems = [];
+
+  // Services
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final AuthServices _auth = AuthServices();
+  ImagePicker picker = ImagePicker();
+  StorageServices storage = StorageServices();
+  XFile? _file;
+  bool showCurrentImage = false;
+
+  // Controllers
+  TextEditingController _recipeNameController = TextEditingController();
+  TextEditingController _recipeDescriptionController = TextEditingController();
+
 
   @override
   void initState() {
@@ -23,6 +40,11 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
     _recipeName = widget.recipeObj.recipeName;
     _recipeDescription = widget.recipeObj.recipeDescription;
     _recipeItems = widget.recipeObj.ingredients;
+    _imageUrl = widget.recipeObj.imageUrl;
+    _id = widget.recipeObj.id;
+
+    _recipeNameController.text = widget.recipeObj.recipeName;
+    _recipeDescriptionController.text = widget.recipeObj.recipeDescription;
   }
 
   @override
@@ -45,7 +67,94 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 16.0),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "Upload Recipe Image",
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  ),
+                  if (_file != null && showCurrentImage)
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      height: 50,
+                      width: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.file(File(_file!.path), fit: BoxFit.cover),
+                      ),
+                    ),
+                  if (_imageUrl != null && showCurrentImage == false)
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      height: 50,
+                      width: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(_imageUrl!, fit: BoxFit.cover),
+                      ),
+                    ),
+                  Text(_file != null ? _file!.name : "",
+                      style: TextStyle(color: Colors.black87)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () async {
+                          _file = await picker.pickImage(
+                              source: ImageSource.gallery);
+
+                          setState(() {});
+                        },
+                        child: Text(
+                          "Gallery",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.grey.shade400),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      TextButton(
+                        onPressed: () async {
+                          _file = await picker.pickImage(
+                              source: ImageSource.camera);
+                        },
+                        child: Text(
+                          "Camera",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.grey.shade400),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             TextFormField(
+              controller: _recipeNameController,
               style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
                 labelText: 'Recipe Name',
@@ -59,6 +168,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
             ),
             SizedBox(height: 16.0),
             TextFormField(
+              controller: _recipeDescriptionController,
               style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
                 labelText: 'Recipe Description',
@@ -139,6 +249,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
             children: [
               Expanded(
                 child: TextFormField(
+                  initialValue: _recipeItems[index].name,
                   style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                     labelText: 'Ingredient Name',
@@ -158,6 +269,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
               SizedBox(width: 8.0),
               Expanded(
                 child: TextFormField(
+                  initialValue: _recipeItems[index].quantity.toString(),
                   style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                     labelText: 'Quantity',
@@ -217,20 +329,29 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
     });
   }
 
+  Future<void> getImageUrl() async {
+    if (_file != null && _imageUrl != null) {
+      _imageUrl = await storage.updateImage(_imageUrl!, _file!);
+    }
+  }
+
   void _submitRecipe() async {
     if (_recipeName != null &&
         _recipeDescription != null &&
         _recipeItems.isNotEmpty) {
+      await getImageUrl();
       RecipeModel recipeModel = RecipeModel(
+        id: _id,
         recipeName: _recipeName!.trim(),
         recipeDescription: _recipeDescription!,
         ingredients: _recipeItems,
+        imageUrl: _imageUrl,
       );
       await _firebaseFirestore
           .collection("User")
           .doc(_auth.user?.uid)
           .collection("Recipes")
-          .doc(widget.recipeObj.id)
+          .doc(_id)
           .set(recipeModel.toJson());
       Navigator.pop(context);
     } else {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/bloc/recipes_bloc.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/models/recipes_model.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
+import 'package:mandar_purushottam_s_application1/services/storage.dart';
 
 class AddRecipeScreen extends StatefulWidget {
   @override
@@ -14,10 +16,14 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
   String? _recipeName;
   String? _recipeDescription;
   List<IngredientModel> _recipeItems = [];
+  String? _imageUrl;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final AuthServices _auth = AuthServices();
   RecipesBloc recipesBloc =
       RecipesBloc(RecipesState(recipesModelObj: RecipeListModel()));
+  ImagePicker picker = ImagePicker();
+  XFile? _file;
+  StorageServices storage = StorageServices();
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +45,72 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 16.0),
+            Container(
+              height: 150,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              padding: EdgeInsets.all(15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "Upload Recipe Image",
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  ),
+                  Text(_file != null ? _file!.name : "",
+                      style: TextStyle(color: Colors.black87)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () async {
+                          _file = await picker.pickImage(
+                              source: ImageSource.gallery);
+                          setState(() {});
+                        },
+                        child: Text(
+                          "Gallery",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.grey.shade400),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      TextButton(
+                        onPressed: () async {
+                          _file = await picker.pickImage(
+                              source: ImageSource.camera);
+                        },
+                        child: Text(
+                          "Camera",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.grey.shade400),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             TextFormField(
               style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
@@ -204,14 +276,24 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
     });
   }
 
+  Future<void> getImageUrl() async {
+    if (_file != null) {
+      _imageUrl = await storage.uploadImage(
+          "/users/${_auth.user?.uid}/recipes", _file!,
+          fileName: _recipeName);
+    }
+  }
+
   void _submitRecipe() async {
     if (_recipeName != null &&
         _recipeDescription != null &&
         _recipeItems.isNotEmpty) {
+      await getImageUrl();
       RecipeModel recipeModel = RecipeModel(
         recipeName: _recipeName!.trim(),
         recipeDescription: _recipeDescription!,
         ingredients: _recipeItems,
+        imageUrl: _imageUrl,
       );
       await _firebaseFirestore
           .collection("User")
