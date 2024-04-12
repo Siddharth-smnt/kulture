@@ -31,7 +31,14 @@ class RecipeItemWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CustomImageView(
-              imagePath: ImageConstant.imgImage14,
+              url: (recipeItemModelObj.imageUrl != null &&
+                      recipeItemModelObj.imageUrl!.isNotEmpty)
+                  ? recipeItemModelObj.imageUrl
+                  : null,
+              imagePath: (recipeItemModelObj.imageUrl != null &&
+                      recipeItemModelObj.imageUrl!.isNotEmpty)
+                  ? null
+                  : ImageConstant.imgImage14,
               height: 89.v,
               width: 140.h,
             ),
@@ -41,7 +48,7 @@ class RecipeItemWidget extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: CustomTextStyles.titleMediumPrimary,
             ),
-            SizedBox(height: 9.v),
+            // SizedBox(height: 9.v),
           ],
         ),
       ),

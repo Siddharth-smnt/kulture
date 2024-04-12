@@ -75,7 +75,15 @@ class RecipeScreen extends StatelessWidget {
                               ),
                             ),
                             CustomImageView(
-                              imagePath: ImageConstant.imgImage12,
+                              url: (recipe.imageUrl != null &&
+                                      recipe.imageUrl!.isNotEmpty)
+                                  ? recipe.imageUrl
+                                  : null,
+                              imagePath: (recipe.imageUrl != null &&
+                                      recipe.imageUrl!.isNotEmpty)
+                                  ? null
+                                  : ImageConstant.imgImage14,
+                              radius: BorderRadius.circular(50),
                               height: 155.v,
                               width: 250.h,
                               alignment: Alignment.bottomCenter,

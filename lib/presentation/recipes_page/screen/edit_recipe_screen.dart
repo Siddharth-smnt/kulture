@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
+import 'package:mandar_purushottam_s_application1/routes/app_routes.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import 'package:mandar_purushottam_s_application1/services/storage.dart';
 
@@ -53,7 +54,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xFFFF6C03),
         title: Text(
-          'ADD RECIPE',
+          'EDIT RECIPE',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -109,7 +110,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                         onPressed: () async {
                           _file = await picker.pickImage(
                               source: ImageSource.gallery);
-
+                          showCurrentImage = true;
                           setState(() {});
                         },
                         child: Text(
@@ -132,6 +133,8 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                         onPressed: () async {
                           _file = await picker.pickImage(
                               source: ImageSource.camera);
+                          showCurrentImage = true;
+                          setState(() {});
                         },
                         child: Text(
                           "Camera",
@@ -229,7 +232,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFFCC5602),
                   ),
-                  child: Text('Add Recipe'),
+                  child: Text('Edit Recipe'),
                 ),
               ],
             ),
@@ -333,6 +336,11 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
     if (_file != null && _imageUrl != null) {
       _imageUrl = await storage.updateImage(_imageUrl!, _file!);
     }
+    if (_file != null && _imageUrl == null) {
+      _imageUrl = await storage.uploadImage(
+          "/users/${_auth.user?.uid}/recipes", _file!,
+          fileName: _recipeName);
+    }
   }
 
   void _submitRecipe() async {
@@ -353,7 +361,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
           .collection("Recipes")
           .doc(_id)
           .set(recipeModel.toJson());
-      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, AppRoutes.recipesPage);
     } else {
       print("Please fill all fields");
     }
@@ -366,6 +374,6 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
         .collection("Recipes")
         .doc(widget.recipeObj.id)
         .delete();
-    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, AppRoutes.recipesPage);
   }
 }

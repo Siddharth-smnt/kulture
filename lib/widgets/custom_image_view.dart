@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mandar_purushottam_s_application1/theme/app_decoration.dart';
 
 class CustomImageView extends StatelessWidget {
   ///[url] is required parameter for fetching network image
@@ -118,25 +119,28 @@ class CustomImageView extends StatelessWidget {
         color: color,
       );
     } else if (url != null && url!.isNotEmpty) {
-      return CachedNetworkImage(
-        height: height,
-        width: width,
-        fit: fit,
-        imageUrl: url!,
-        color: color,
-        placeholder: (context, url) => Container(
-          height: 30,
-          width: 30,
-          child: LinearProgressIndicator(
-            color: Colors.grey.shade200,
-            backgroundColor: Colors.grey.shade100,
-          ),
-        ),
-        errorWidget: (context, url, error) => Image.asset(
-          placeHolder,
+      return ClipRRect(
+        borderRadius: radius ?? BorderRadiusStyle.roundedBorder20,
+        child: CachedNetworkImage(
           height: height,
           width: width,
           fit: fit ?? BoxFit.cover,
+          imageUrl: url!,
+          color: color,
+          placeholder: (context, url) => Container(
+            height: 30,
+            width: 30,
+            child: LinearProgressIndicator(
+              color: Colors.grey.shade200,
+              backgroundColor: Colors.grey.shade100,
+            ),
+          ),
+          errorWidget: (context, url, error) => Image.asset(
+            placeHolder,
+            height: height,
+            width: width,
+            fit: fit ?? BoxFit.cover,
+          ),
         ),
       );
     } else if (imagePath != null && imagePath!.isNotEmpty) {

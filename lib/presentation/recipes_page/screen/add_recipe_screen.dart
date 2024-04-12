@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/bloc/recipes_bloc.dart';
 import 'package:mandar_purushottam_s_application1/presentation/recipes_page/models/recipes_model.dart';
+import 'package:mandar_purushottam_s_application1/routes/app_routes.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 import 'package:mandar_purushottam_s_application1/services/storage.dart';
 
@@ -46,12 +49,11 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
           children: [
             SizedBox(height: 16.0),
             Container(
-              height: 150,
               decoration: BoxDecoration(
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -59,6 +61,16 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     "Upload Recipe Image",
                     style: TextStyle(color: Colors.black, fontSize: 16),
                   ),
+                  if (_file != null)
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      height: 50,
+                      width: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.file(File(_file!.path), fit: BoxFit.cover),
+                      ),
+                    ),
                   Text(_file != null ? _file!.name : "",
                       style: TextStyle(color: Colors.black87)),
                   Row(
@@ -90,6 +102,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                         onPressed: () async {
                           _file = await picker.pickImage(
                               source: ImageSource.camera);
+                          setState(() {});
                         },
                         child: Text(
                           "Camera",
@@ -305,7 +318,7 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
       });
 
       recipesBloc..add(RefreshRecipesEvent());
-      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, AppRoutes.recipesPage);
     } else {
       print("Please fill all fields");
     }
