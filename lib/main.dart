@@ -12,11 +12,14 @@ void main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp(
-      options: FirebaseOptions(
-          apiKey: "AIzaSyCxgWLQAwUH85ocYwdeWPCv7eodvISOFZM",
-          appId: "1:334536738299:android:63cb49577f44075837375e",
-          messagingSenderId: "334536738299",
-          projectId: "kulture-7f415"));
+    options: FirebaseOptions(
+      apiKey: "AIzaSyCxgWLQAwUH85ocYwdeWPCv7eodvISOFZM",
+      appId: "1:334536738299:android:63cb49577f44075837375e",
+      messagingSenderId: "334536738299",
+      projectId: "kulture-7f415",
+      storageBucket: "kulture-7f415.appspot.com",
+    ),
+  );
 
   // Other initialization code
   await Future.wait([
