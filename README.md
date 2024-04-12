@@ -1,6 +1,11 @@
+flutter clean
+flutter pub get
+dart run flutter_native_splash:create
 
 # mandar_purushottam_s_application1
+
 ### Table of contents
+
 - [System requirements](#system-requirements)
 - [Figma design guidelines for better UI accuracy](#figma-design-guideline-for-better-accuracy)
 - [Check the UI of the entire app](#app-navigations)
@@ -39,7 +44,7 @@ After successful build, your application structure should look like this:
     │   ├── app_export.dart         - It contains commonly used file imports
     │   ├── constants               - It contains static constant class file
     │   └── utils                   - It contains common files and utilities of the application
-    ├── presentation                - It contains widgets of the screens 
+    ├── presentation                - It contains widgets of the screens
     ├── routes                      - It contains all the routes of the application
     └── theme                       - It contains app theme and decoration classes
     └── widgets                     - It contains all custom widget classes
