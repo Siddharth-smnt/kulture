@@ -99,6 +99,26 @@ class PlannerPage extends StatelessWidget {
           TextFormField(initialValue: "lbl_raksha_bandhan".tr),
           TextFormField(initialValue: "lbl_idli_sambar".tr),
         ),
+        _buildTableRow(
+          TextFormField(initialValue: "thursday, august 24"),
+          TextFormField(initialValue: "lbl_raksha_bandhan"),
+          TextFormField(initialValue: "lbl_idli_sambar"),
+        ),
+        _buildTableRow(
+          TextFormField(initialValue: "msg_wednesday_august"),
+          TextFormField(initialValue: "lbl_raksha_bandhan"),
+          TextFormField(initialValue: "lbl_idli_sambar"),
+        ),
+        _buildTableRow(
+          TextFormField(initialValue: "msg_wednesday_august"),
+          TextFormField(initialValue: "lbl_raksha_bandhan"),
+          TextFormField(initialValue: "lbl_idli_sambar"),
+        ),
+        _buildTableRow(
+          TextFormField(initialValue: "msg_wednesday_august"),
+          TextFormField(initialValue: "lbl_raksha_bandhan"),
+          TextFormField(initialValue: "lbl_idli_sambar"),
+        ),
       ],
     );
   }

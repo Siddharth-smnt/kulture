@@ -51,6 +51,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   child: Text('Vegetables'),
                   value: 'Vegetables',
                 ),
+                DropdownMenuItem<String>(
+                  child: Text('Dairy'),
+                  value: 'Dairy',
+                ),
               ],
               onChanged: (String? value) {
                 setState(() {

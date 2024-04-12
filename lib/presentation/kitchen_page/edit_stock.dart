@@ -73,6 +73,10 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   child: Text('Vegetables'),
                   value: 'Vegetables',
                 ),
+                DropdownMenuItem<String>(
+                  child: Text('Dairy'),
+                  value: 'Dairy',
+                ),
               ],
               onChanged: (String? value) {
                 setState(() {
@@ -171,6 +175,24 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   ),
                   child: Text(
                     'Cancel',
+                    style: TextStyle(fontSize: 12.0, color: Colors.white),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    await _firebaseFirestore
+                        .collection("User")
+                        .doc(_auth.user?.uid)
+                        .collection("Inventory")
+                        .doc(_docId)
+                        .delete();
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFFF6B00),
+                  ),
+                  child: Text(
+                    'Delete',
                     style: TextStyle(fontSize: 12.0, color: Colors.white),
                   ),
                 ),
