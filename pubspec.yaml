@@ -18,6 +18,11 @@ dependencies:
   cloud_firestore: ^4.15.4
   firebase_database: ^10.4.5
   firebase_auth: ^4.17.4
+  pdf: ^3.10.8
+  open_file: ^3.3.2
+  path_provider: ^2.1.2
+  url_launcher: ^6.2.5
+  share_plus: ^7.2.2
   image_picker: ^1.0.7
   firebase_storage: ^11.6.9
   flutter_native_splash: ^2.3.10
@@ -68,3 +73,7 @@ flutter:
           weight: 700
         - asset: assets/fonts/InterRegular.ttf
           weight: 400
+fonts:
+  - family: Montserrat
+    fonts:
+      - asset: assets/fonts/open-sans.ttf

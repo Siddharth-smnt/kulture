@@ -74,14 +74,18 @@ class RecipesPage extends StatelessWidget {
             ],
           ),
         ),
-        floatingActionButton: CustomFloatingButton(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xFFFF6B00), // Set background color to #FF6B00
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AddRecipeScreen()),
             );
           },
-          iconPath: ImageConstant.imgPlus,
+          child: Icon(
+            Icons.add,
+            color: Colors.white, // Set icon color to white
+          ),
         ),
       ),
     );

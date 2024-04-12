@@ -50,12 +50,15 @@ class PlannerPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20.0),
-                    CustomOutlinedButton(
-                      height: 46.0,
-                      text: "lbl_save".tr,
-                      buttonStyle: CustomButtonStyles.outlinePrimaryTL8,
-                      buttonTextStyle: CustomTextStyles.bodyMediumLato,
-                    ),
+                    // CustomOutlinedButton(
+                    //   height: 46.0,
+                    //   text: "lbl_save".tr,
+                    //   buttonStyle: CustomButtonStyles.outlinePrimaryTL8,
+                    //   buttonTextStyle: CustomTextStyles.bodyMediumLato,
+                    //   onPressed: () {
+                    //     // Handle save action here
+                    //   },
+                    // ),
                   ],
                 ),
               ),
@@ -75,19 +78,32 @@ class PlannerPage extends StatelessWidget {
       },
       border: TableBorder.all(),
       children: [
-        _buildTableRow("lbl_date".tr, "lbl_event".tr, "lbl_menu".tr,
-            isHeader: true),
-        _buildTableRow("msg_sunday_august_27".tr, "msg_shravana_putrada".tr,
-            "msg_batata_vada_chatni".tr),
-        _buildTableRow("msg_tuesday_august".tr, "lbl_onam_thiruvonam".tr,
-            "lbl_pav_bhaji".tr),
-        _buildTableRow("msg_wednesday_august".tr, "lbl_raksha_bandhan".tr,
-            "lbl_idli_sambar".tr),
+        _buildTableRow(
+          _buildTableHeader("Date"),
+          _buildTableHeader("Event"),
+          _buildTableHeader("Menu"),
+          isHeader: true,
+        ),
+        _buildTableRow(
+          TextFormField(initialValue: "msg_sunday_august_27".tr),
+          TextFormField(initialValue: "msg_shravana_putrada".tr),
+          TextFormField(initialValue: "msg_batata_vada_chatni".tr),
+        ),
+        _buildTableRow(
+          TextFormField(initialValue: "msg_tuesday_august".tr),
+          TextFormField(initialValue: "lbl_onam_thiruvonam".tr),
+          TextFormField(initialValue: "lbl_pav_bhaji".tr),
+        ),
+        _buildTableRow(
+          TextFormField(initialValue: "msg_wednesday_august".tr),
+          TextFormField(initialValue: "lbl_raksha_bandhan".tr),
+          TextFormField(initialValue: "lbl_idli_sambar".tr),
+        ),
       ],
     );
   }
 
-  TableRow _buildTableRow(String column1, String column2, String column3,
+  TableRow _buildTableRow(Widget column1, Widget column2, Widget column3,
       {bool isHeader = false}) {
     return TableRow(
       decoration: isHeader ? BoxDecoration(color: appTheme.orangeA700) : null,
@@ -99,20 +115,29 @@ class PlannerPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTableCell(String text, {bool isHeader = false}) {
+  Widget _buildTableCell(Widget child, {bool isHeader = false}) {
     return TableCell(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            color: isHeader ? Colors.white : Colors.black,
-            fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
+        child: isHeader
+            ? Center(child: child)
+            : TextFormField(
+                initialValue: (child as TextFormField).initialValue,
+                style: TextStyle(color: Colors.black),
+                onChanged: (value) {},
+              ),
       ),
+    );
+  }
+
+  Widget _buildTableHeader(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 18.0,
+      ),
+      textAlign: TextAlign.center,
     );
   }
 }
