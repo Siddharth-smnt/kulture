@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/presentation/planner_page/bloc/planner_bloc.dart';
 import 'package:mandar_purushottam_s_application1/presentation/planner_page/models/planner_model.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_subtitle.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
-import 'package:mandar_purushottam_s_application1/widgets/custom_outlined_button.dart';
 
 class PlannerPage extends StatelessWidget {
   const PlannerPage({Key? key}) : super(key: key);
@@ -102,22 +100,22 @@ class PlannerPage extends StatelessWidget {
         _buildTableRow(
           TextFormField(initialValue: "Monday, august 24"),
           TextFormField(initialValue: "diwali"),
-          TextFormField(initialValue: "lbl_idli_sambar"),
+          TextFormField(initialValue: "Shankarpali"),
         ),
         _buildTableRow(
           TextFormField(initialValue: "Thursday, august 15"),
           TextFormField(initialValue: "gudhipadwa"),
-          TextFormField(initialValue: "lbl_idli_sambar"),
+          TextFormField(initialValue: "Puran Poli"),
         ),
         _buildTableRow(
           TextFormField(initialValue: "Friday, august 15"),
           TextFormField(initialValue: "dasra"),
-          TextFormField(initialValue: "lbl_idli_sambar"),
+          TextFormField(initialValue: "Chole Bhature"),
         ),
         _buildTableRow(
           TextFormField(initialValue: "Saturday, august 15"),
           TextFormField(initialValue: "vijayadashmi"),
-          TextFormField(initialValue: "lbl_idli_sambar"),
+          TextFormField(initialValue: "Curd Rice"),
         ),
       ],
     );

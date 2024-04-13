@@ -41,19 +41,19 @@ class InventoryItemWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SizedBox(height: 9.v),
+              // SizedBox(height: 9.v),
               CustomImageView(
-                imagePath: ImageConstant.imgImage2,
-                height: 55.v,
+                imagePath: _getImagePath(inventoryItemModelObj),
+                height: 70.v,
                 width: 100.h,
               ),
-              SizedBox(height: 16.v),
+              // SizedBox(height: 16.v),
               Text(
                 inventoryItemModelObj.itemName,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.titleMedium,
               ),
-              SizedBox(height: 9.v),
+              // SizedBox(height: 9.v),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -85,6 +85,19 @@ class InventoryItemWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? _getImagePath(InventoryModel obj) {
+    switch (obj.category) {
+      case "Condiments":
+        return ImageConstant.imgImage2;
+      case "Vegetables":
+        return ImageConstant.imgImage8;
+      case "Dairy":
+        return ImageConstant.imgImage17;
+      default:
+        return null;
+    }
   }
 
   void decreaseItemCount(String docId) {

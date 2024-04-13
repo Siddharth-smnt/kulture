@@ -9,7 +9,6 @@ import 'package:mandar_purushottam_s_application1/services/authentication/authen
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/appbar_image_1.dart';
 import 'package:mandar_purushottam_s_application1/widgets/app_bar/custom_app_bar.dart';
-import 'package:mandar_purushottam_s_application1/widgets/custom_floating_button.dart';
 
 class KitchenPage extends StatelessWidget {
   KitchenPage({Key? key}) : super(key: key);
@@ -35,12 +34,12 @@ class KitchenPage extends StatelessWidget {
             imagePath: ImageConstant.imgLogo21,
             margin: EdgeInsets.only(left: 24.h),
           ),
-          actions: [
-            AppbarImage1(
-              svgPath: ImageConstant.imgSearch,
-              margin: EdgeInsets.fromLTRB(24.h, 29.v, 24.h, 21.v),
-            ),
-          ],
+          // actions: [
+          //   AppbarImage1(
+          //     svgPath: ImageConstant.imgSearch,
+          //     margin: EdgeInsets.fromLTRB(24.h, 29.v, 24.h, 21.v),
+          //   ),
+          // ],
           styleType: Style.bgFill,
         ),
         body: SingleChildScrollView(

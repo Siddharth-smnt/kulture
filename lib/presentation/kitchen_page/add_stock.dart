@@ -129,7 +129,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     ],
                     onChanged: (String? value) {
                       setState(() {
-                        _selectedUnit = value;
+                        _selectedUnit = value ?? "unit";
                       });
                     },
                     hint: Text('Unit'),

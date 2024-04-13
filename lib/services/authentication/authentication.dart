@@ -3,10 +3,12 @@ import "dart:io";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:firebase_storage/firebase_storage.dart";
+import "package:flutter/services.dart";
 import "package:mandar_purushottam_s_application1/UserModel/RecipeModel.dart";
 import "package:mandar_purushottam_s_application1/UserModel/UserModel.dart";
 import "package:mandar_purushottam_s_application1/core/utils/image_constant.dart";
 import "package:mandar_purushottam_s_application1/presentation/recipes_page/models/default_recipes.dart";
+import "package:path_provider/path_provider.dart";
 
 class AuthServices {
   AuthServices();
@@ -95,28 +97,37 @@ class AuthServices {
   }
 
   Future<String> getDefaultImageUrl(RecipeModel recipe) async {
-    final _filePath;
+    String _assetPath;
     switch (recipe.recipeName) {
       case "Sabudana Khichdi":
-        _filePath = ImageConstant.imgImage12;
+        _assetPath = ImageConstant.imgImage12;
         break;
       case "Chole Bhature":
-        _filePath = ImageConstant.imgImage13;
+        _assetPath = ImageConstant.imgImage13;
         break;
       case "Veg Biryani":
-        _filePath = ImageConstant.imgImage14;
+        _assetPath = ImageConstant.imgImage14;
         break;
       case "Veg Pulav":
-        _filePath = ImageConstant.imgImage15;
+        _assetPath = ImageConstant.imgImage15;
         break;
       default:
-        _filePath = ImageConstant.imgImage12;
+        _assetPath = ImageConstant.imgImage12;
     }
     try {
+      final ByteData data = await rootBundle.load(_assetPath);
+      List<int> bytes = data.buffer.asUint8List();
+
+      // temp file
+      Directory tempDir = await getTemporaryDirectory();
+      File tempFile = File('${tempDir.path}/${recipe.recipeName}.png');
+      await tempFile.writeAsBytes(bytes);
+
+      //Upload to firebase storage
       final uploadPath =
           "/users/${_auth.currentUser?.uid}/recipes/${recipe.recipeName}";
       final ref = FirebaseStorage.instance.ref().child(uploadPath);
-      await ref.putFile(File(_filePath));
+      await ref.putFile(tempFile, SettableMetadata(contentType: "image/png"));
       final url = await ref.getDownloadURL();
       return url;
     } catch (e) {

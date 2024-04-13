@@ -101,10 +101,12 @@ class EstimatePage extends StatelessWidget {
                                   doc.data() as Map<String, dynamic>;
                               return EstimateModel.fromJson(data);
                             }).toList();
+                            allNotAvailableItemList.clear();
                             for (var estimate in toBuyList) {
-                              allNotAvailableItemList.addAll(
-                                  estimate.notAvailableItems
-                                      as Iterable<IngredientModel>);
+                              allNotAvailableItemList.addAll(estimate
+                                      .notAvailableItems
+                                      ?.where((e) => e.quantity != 0)
+                                  as Iterable<IngredientModel>);
                             }
                             return _itemsToBuyTable(allNotAvailableItemList);
                           }
@@ -178,6 +180,7 @@ class EstimatePage extends StatelessWidget {
     List<TableRow> rows = [];
     if (list != null) {
       for (var item in list) {
+        if (item.quantity == 0) continue;
         rows.add(
           TableRow(children: [
             _buildEstimateTableCellText(item.name),
@@ -340,6 +343,24 @@ class EstimatePage extends StatelessWidget {
       ),
     );
   }
+
+  // Widget _buildTableCellTextField(String person) {
+  //   return TableCell(
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(8.0),
+  //       child: TextFormField(
+  //         initialValue: person,
+  //         textAlign: TextAlign.center,
+  //         style: TextStyle(
+  //           fontSize: 16,
+  //           color: Color(Colors.black.value),
+  //           fontWeight: FontWeight.normal,
+  //         ),
+  //         onChanged: (value) => ,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildTableCell(Widget widget) {
     return TableCell(

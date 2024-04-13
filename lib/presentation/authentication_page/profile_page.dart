@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mandar_purushottam_s_application1/core/app_export.dart';
 import 'package:mandar_purushottam_s_application1/presentation/authentication_page/onboarding_screen.dart';
 import 'package:mandar_purushottam_s_application1/services/authentication/authentication.dart';
 

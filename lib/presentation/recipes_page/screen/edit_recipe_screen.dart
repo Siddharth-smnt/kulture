@@ -323,7 +323,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                   ],
                   onChanged: (String? value) {
                     setState(() {
-                      _recipeItems[index].unit = value ?? '';
+                      _recipeItems[index].unit = value ?? 'unit';
                     });
                   },
                   hint: Text('Unit'),

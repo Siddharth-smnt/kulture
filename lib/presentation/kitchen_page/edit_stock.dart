@@ -153,7 +153,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     ],
                     onChanged: (String? value) {
                       setState(() {
-                        _selectedUnit = value;
+                        _selectedUnit = value ?? "unit";
                       });
                     },
                     hint: Text('Unit'),

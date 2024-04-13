@@ -18,8 +18,6 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
   void _refreshRecipes(
       RefreshRecipesEvent event, Emitter<RecipesState> emit) async {
     List<RecipeModel> newList = await fillRecipeItemList();
-    print("AAAAAAAAAAAAAAAAAA___ NEW LIST ___AAAAAAAAAAAAAAAAAAAAAA");
-    print(newList);
     emit(state.copyWith(
         recipesModelObj:
             state.recipesModelObj?.copyWith(recipeItemList: newList)));
