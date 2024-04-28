@@ -10,7 +10,7 @@
 
 
     <application
-        android:label="mandar_purushottam_s_application1"
+        android:label="Kulture"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
